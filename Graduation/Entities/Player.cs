@@ -13,9 +13,10 @@ namespace Graduation.Entities
 
         private bool _canJump = false;
         InputController controller;
-        AnimationSprite _animationSprite;
+        private AnimationSprite _animationSprite;
         String _direction = "right";
         float dt;
+
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
@@ -174,7 +175,7 @@ namespace Graduation.Entities
               { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
-            }, "StandRight");
+            }, "StandRight", Color.White);
 
             changePlayerDimensions();
         }

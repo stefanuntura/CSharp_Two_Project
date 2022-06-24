@@ -5,15 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Graduation.Entities;
+
 namespace Graduation.States
 {
     public class GameState : State
     {
-        private Entities.Player _player;
+        private Player _player;
+        private List<Enemy> _enemies;
         private TestMap.Map _map;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
-            _player = new Entities.Player(game, new Vector2(0, 0));
+            _player = new Player(game, new Vector2(0, 0));
+            _enemies = new List<Enemy>();
+            _enemies.Add(new Walker(game, new Vector2(100, 100)));
             _map = new TestMap.Map();
 
             _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
@@ -32,14 +37,22 @@ namespace Graduation.States
             _spriteBatch.Begin();
 
             _player.Draw(_spriteBatch, gameTime);
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Draw(_spriteBatch, gameTime);
+            }
             _map.Draw(_spriteBatch, gameTime);
-        
+
             _spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
             _player.Update(gameTime, _map);
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Update(gameTime, _player, _map);
+            }
         }
     }
 }

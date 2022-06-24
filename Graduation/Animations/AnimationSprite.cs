@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 
 namespace Graduation.Animations
 {
@@ -18,6 +18,8 @@ namespace Graduation.Animations
         protected Vector2 _position;
 
         protected Texture2D _texture;
+
+        private Color _color;
 
         public Vector2 Position
         {
@@ -39,11 +41,12 @@ namespace Graduation.Animations
                 _animationManager.Draw(spriteBatch, position);
         }
 
-        public AnimationSprite(Dictionary<string, Animation> animations, String startAnimation)
+        public AnimationSprite(Dictionary<string, Animation> animations, String startAnimation, Color color)
         {
             Animations = animations;
             CurrentAnimation = Animations[startAnimation];
-            _animationManager = new AnimationManager(CurrentAnimation);
+            _color = color;
+            _animationManager = new AnimationManager(CurrentAnimation, color);
         }
 
         public AnimationSprite(Texture2D texture)
@@ -53,12 +56,14 @@ namespace Graduation.Animations
 
         public virtual void Update(GameTime gameTime)
         {
-            _animationManager.Play(CurrentAnimation);
+            Debug.WriteLine(CurrentAnimation.Texture);
+            _animationManager.Play(CurrentAnimation, _color);
             _animationManager.Update(gameTime);
         }
 
         public void SetActive(String animationName)
         {
+            Debug.WriteLine(Animations[animationName].Texture);
             CurrentAnimation = Animations[animationName];
         }
     }
