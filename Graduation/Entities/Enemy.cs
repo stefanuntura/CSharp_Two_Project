@@ -17,6 +17,8 @@ namespace Graduation.Entities
         private bool _canJump = false;
         private bool _strollLeft = false;
         float dt;
+        protected double _attackCooldown = 0;
+        protected double _collisionDamageCooldown = 0; 
 
         public Enemy(Game game, Vector2 position, float speed, float health, float damage) : base(game, position)
         {
@@ -222,6 +224,18 @@ namespace Graduation.Entities
         {
             Animation currAnim = AnimationSprite.CurrentAnimation;
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
+        }
+
+        public void DealCollisionDamage(Player player, Map map)
+        {
+            if(Util.areOverlapping(this, player) && _collisionDamageCooldown >= 2000)
+            {
+                player.Health -= 5;
+                _collisionDamageCooldown = 0;
+
+                if(this.Position.X > player.Position.X){player.moveLeft(map);}
+                else {player.moveRight(map);}
+            }
         }
 
         public abstract void Update(GameTime gameTime, Player player, Map map);

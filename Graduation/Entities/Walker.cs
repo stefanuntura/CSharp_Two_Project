@@ -14,8 +14,13 @@ namespace Graduation.Entities
 
         public override void Update(GameTime gameTime, Player player, Map map)
         {
+            _collisionDamageCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
+            _attackCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             FallDown(dt, map);
+            DealCollisionDamage(player, map);
+
             if (Util.InRangeX(this, player, 200))
             {
                 ChasePlayer(dt, player, map);

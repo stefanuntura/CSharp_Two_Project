@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Graduation.Graphics;
 using Graduation.TestMap;
 using Graduation.Animations;
+using System.Diagnostics;
 
 namespace Graduation.Entities
 {
@@ -23,6 +24,7 @@ namespace Graduation.Entities
             LoadContent(game);
             Speed = 180;
             controller = new InputController(this);
+            Health = 100;
         }
 
         public void Update(GameTime gameTime, Map map)
@@ -36,6 +38,7 @@ namespace Graduation.Entities
             controller.handleInput(map);
             moveY(map);
             _animationSprite.Update(gameTime);
+            Debug.WriteLine(this.Health);
         }
 
         public void moveRight(Map map)

@@ -27,7 +27,14 @@ namespace Graduation
 
         public static bool areOverlapping(Entity e1, Entity e2)
         {
-            return true;
+            if (e1.Position.Y <= e2.Position.Y + e2.Position.Y && e1.Position.Y + e1.Dimensions.Y >= e2.Position.Y)
+            {
+                if (e1.Position.X <= e2.Position.X + e2.Position.X && e1.Position.X + e2.Dimensions.X >= e2.Position.X)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
