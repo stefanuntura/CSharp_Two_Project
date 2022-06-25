@@ -14,6 +14,7 @@ namespace Graduation.States
         private Player _player;
         private List<Enemy> _enemies;
         private TestMap.Map _map;
+        private double _counter = 0;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             _player = new Player(game, new Vector2(0, 0));
@@ -48,6 +49,11 @@ namespace Graduation.States
 
         public override void Update(GameTime gameTime)
         {
+            if(_player.Health <= 0)
+            {
+                _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if(_counter > 3000) { _game.ChangeState(new MenuState(_game, _graphicsDevice, _contentManager)); }
+            }
             _player.Update(gameTime, _map);
             foreach (Enemy enemy in _enemies)
             {

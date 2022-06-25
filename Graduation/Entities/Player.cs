@@ -30,17 +30,24 @@ namespace Graduation.Entities
 
         public void Update(GameTime gameTime, Map map)
         {
-            // delta time
-            dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Health <= 0)
+            {
+                //Debug.WriteLine("Accessed");
+                _animationSprite.SetActive("Dead");
+            }
+            else
+            {
+                // delta time
+                dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_canJump)
-                _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
+                if (_canJump)
+                    _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
 
-            controller.handleInput(map);
-            moveY(map);
-            _animationSprite.Update(gameTime);
-            //Debug.WriteLine(Dimensions.Y);
-
+                controller.handleInput(map);
+                moveY(map);
+                _animationSprite.Update(gameTime);
+                //Debug.WriteLine(Dimensions.Y);
+            }
         }
 
         public void moveRight(Map map)
@@ -181,6 +188,7 @@ namespace Graduation.Entities
               { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
+              { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
             font = game.Content.Load<SpriteFont>("Fonts/Font");
             changePlayerDimensions();

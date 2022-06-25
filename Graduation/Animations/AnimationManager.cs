@@ -21,7 +21,7 @@ namespace Graduation.Animations
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            Debug.WriteLine(_animation.Texture);
+            //Debug.WriteLine(_animation.Texture);
             spriteBatch.Draw(
                 _animation.Texture,
                 position,

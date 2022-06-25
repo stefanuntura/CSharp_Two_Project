@@ -24,19 +24,23 @@ namespace Graduation.Entities
             DealCollisionDamage(player, map);
             HitPlayer(player);
 
-            if (Util.InRangeX(this, player, 200))
+            if (Util.InRangeX(this, player, 200) && player.Health > 0)
             {
                 ChasePlayer(dt, player, map);
             }
-            else
+            else if(player.Health > 0)
             {
                 Stroll(dt, map);
+            }
+            else
+            {
+                Roam(dt, map);
             }
         }
 
         public override void LoadContent(Game game)
         {
-            Debug.WriteLine("Test");
+            //Debug.WriteLine("Test");
             AnimationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
               { "WalkRight", new Animation(game.Content.Load<Texture2D>("Player/WalkRight"), 2) },

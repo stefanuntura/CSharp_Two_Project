@@ -53,6 +53,7 @@ namespace Graduation
 
             _currentState.Update(gameTime);
 
+
             base.Update(gameTime);
         }
 
