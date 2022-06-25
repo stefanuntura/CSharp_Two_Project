@@ -13,10 +13,11 @@ namespace Graduation.Entities
     {
 
         private bool _canJump = false;
-        InputController controller;
+        private InputController controller;
         private AnimationSprite _animationSprite;
-        String _direction = "right";
-        float dt;
+        private String _direction = "right";
+        private float dt;
+        private SpriteFont font;
 
 
         public Player(Game game, Vector2 position) : base(game, position)
@@ -38,7 +39,8 @@ namespace Graduation.Entities
             controller.handleInput(map);
             moveY(map);
             _animationSprite.Update(gameTime);
-            Debug.WriteLine(this.Health);
+            //Debug.WriteLine(Dimensions.Y);
+
         }
 
         public void moveRight(Map map)
@@ -163,6 +165,7 @@ namespace Graduation.Entities
         {
             //Sprite.Draw(spriteBatch, Position);
             _animationSprite.Draw(spriteBatch, Position);
+            spriteBatch.DrawString(font, this.Health.ToString(), new Vector2(30, 30), Color.Black);
 
         }
 
@@ -179,7 +182,7 @@ namespace Graduation.Entities
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
             }, "StandRight", Color.White);
-
+            font = game.Content.Load<SpriteFont>("Fonts/Font");
             changePlayerDimensions();
         }
 

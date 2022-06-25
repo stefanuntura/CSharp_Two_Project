@@ -29,7 +29,7 @@ namespace Graduation
                     case Keys.A:
                         _player.moveLeft(map);
                         break;
-                    case Keys.W:
+                    case Keys.Space:
                         _player.jump();
                         break;
                 }

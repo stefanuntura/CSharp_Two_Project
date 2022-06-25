@@ -18,14 +18,18 @@ namespace Graduation.Entities
         private bool _strollLeft = false;
         float dt;
         protected double _attackCooldown = 0;
-        protected double _collisionDamageCooldown = 0; 
+        protected double _collisionDamageCooldown = 0;
+        protected double _collisionDamage;
+        protected double _attackRange;
 
-        public Enemy(Game game, Vector2 position, float speed, float health, float damage) : base(game, position)
+        public Enemy(Game game, Vector2 position, float speed, float health, float damage, double collisionDamage, double attackRange) : base(game, position)
         {
             LoadContent(game);
             Speed = speed;
             Health = health;
-            Damage = Damage;
+            Damage = damage;
+            _collisionDamage = collisionDamage;
+            _attackRange = attackRange;
         }
 
         public void moveLeft(Map map, float distance)
@@ -230,13 +234,23 @@ namespace Graduation.Entities
         {
             if(Util.areOverlapping(this, player) && _collisionDamageCooldown >= 2000)
             {
-                player.Health -= 5;
+                player.Health -= this._collisionDamage;
                 _collisionDamageCooldown = 0;
 
-                if(this.Position.X > player.Position.X){player.moveLeft(map);}
-                else {player.moveRight(map);}
+                //Player Damage Knockback
+
+                /*if(this.Position.X > player.Position.X)
+                {
+                    Vector2 newPos = new Vector2(Position.X + 30, Position.Y);
+                    if(!Util.newPositionBoxCollision(this, map, newPos))
+                    {
+                        Position = newPos;
+                    }
+                }
+                else {player.moveRight(map);}*/
             }
         }
+
 
         public abstract void Update(GameTime gameTime, Player player, Map map);
 

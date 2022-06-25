@@ -63,7 +63,7 @@ namespace Graduation.Animations
 
         public void SetActive(String animationName)
         {
-            Debug.WriteLine(Animations[animationName].Texture);
+            //Debug.WriteLine(Animations[animationName].Texture);
             CurrentAnimation = Animations[animationName];
         }
     }

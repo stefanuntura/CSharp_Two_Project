@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Graduation.Graphics;
 using Graduation.TestMap;
 using Graduation.Animations;
+using System.Diagnostics;
+
 
 namespace Graduation.Entities
 {
     class Walker : Enemy
     {
-        public Walker(Game game, Vector2 position) : base(game, position, 180, 100, 5) { }
+        public Walker(Game game, Vector2 position) : base(game, position, 180, 100, 10, 3, 40) { }
 
         public override void Update(GameTime gameTime, Player player, Map map)
         {
@@ -20,6 +22,7 @@ namespace Graduation.Entities
 
             FallDown(dt, map);
             DealCollisionDamage(player, map);
+            HitPlayer(player);
 
             if (Util.InRangeX(this, player, 200))
             {
@@ -33,6 +36,7 @@ namespace Graduation.Entities
 
         public override void LoadContent(Game game)
         {
+            Debug.WriteLine("Test");
             AnimationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
               { "WalkRight", new Animation(game.Content.Load<Texture2D>("Player/WalkRight"), 2) },
@@ -44,6 +48,15 @@ namespace Graduation.Entities
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
             }, "StandRight", Color.Red);
+        }
+
+        public void HitPlayer(Player player)
+        {
+            if (Util.InRange(player, this, (float)_attackRange) && _attackCooldown >= 4000)
+            {
+                player.Health -= Damage;
+                _attackCooldown = 0;
+            }
         }
     }
 }
