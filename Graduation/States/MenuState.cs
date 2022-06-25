@@ -22,7 +22,7 @@ namespace Graduation.States
 
             var newGameTitlePic = new Img(gameTitleTexture)
             {
-                Position = new Vector2(200, 100)
+                Position = new Vector2(175, 100)
             };
 
             var newGameBtn = new Button(buttonTexture, buttonFont)
