@@ -1,23 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Graduation.Animations
 {
     public class AnimationManager
     {
         private Animation _animation;
+        private Color _color;
 
         private float _timer;
 
         public Vector2 Position { get; set; }
 
-        public AnimationManager(Animation animation)
+        public AnimationManager(Animation animation, Color color)
         {
             _animation = animation;
+            _color = color;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
+            //Debug.WriteLine(_animation.Texture);
             spriteBatch.Draw(
                 _animation.Texture,
                 position,
@@ -26,16 +30,16 @@ namespace Graduation.Animations
                     0,
                     _animation.FrameWidth,
                     _animation.FrameHeight),
-                    Color.White);
+                    _color);
         }
 
-        public void Play(Animation animation)
+        public void Play(Animation animation, Color color)
         {
             if (_animation == animation)
                 return;
 
             _animation = animation;
-
+            _color = color;
             _animation.CurrentFrame = 0;
 
             _timer = 0;

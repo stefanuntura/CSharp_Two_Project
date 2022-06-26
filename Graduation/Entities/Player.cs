@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Graduation.Graphics;
 using Graduation.TestMap;
 using Graduation.Animations;
+using System.Diagnostics;
 
 namespace Graduation.Entities
 {
@@ -12,29 +13,43 @@ namespace Graduation.Entities
     {
 
         private bool _canJump = false;
-        InputController controller;
-        AnimationSprite _animationSprite;
-        String _direction = "right";
-        float dt;
+        private InputController controller;
+        private AnimationSprite _animationSprite;
+        private String _direction = "right";
+        private float dt;
+        private SpriteFont font;
+        private Healthbar _healthbar;
+
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
             LoadContent(game);
             Speed = 180;
             controller = new InputController(this);
+            Health = 100;
+            _healthbar = new Healthbar(game,new Vector2(60,20));
         }
 
         public void Update(GameTime gameTime, Map map)
         {
-            // delta time
-            dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Health <= 0)
+            {
+                //Debug.WriteLine("Accessed");
+                _animationSprite.SetActive("Dead");
+            }
+            else
+            {
+                // delta time
+                dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_canJump)
-                _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
+                if (_canJump)
+                    _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
 
-            controller.handleInput(map);
-            moveY(map);
-            _animationSprite.Update(gameTime);
+                controller.handleInput(map);
+                moveY(map);
+                _animationSprite.Update(gameTime);
+                //Debug.WriteLine(Dimensions.Y);
+            }
         }
 
         public void moveRight(Map map)
@@ -159,6 +174,9 @@ namespace Graduation.Entities
         {
             //Sprite.Draw(spriteBatch, Position);
             _animationSprite.Draw(spriteBatch, Position);
+            // Health Number Log for testing 
+            spriteBatch.DrawString(font, this.Health >= 0 ? this.Health.ToString() : "0", new Vector2(30, 30), Color.Black);
+            _healthbar.Draw(gameTime,spriteBatch, Health);
 
         }
 
@@ -174,8 +192,9 @@ namespace Graduation.Entities
               { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
-            }, "StandRight");
-
+              { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
+            }, "StandRight", Color.White);
+            font = game.Content.Load<SpriteFont>("Fonts/Font");
             changePlayerDimensions();
         }
 
