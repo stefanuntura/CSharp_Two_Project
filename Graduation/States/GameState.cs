@@ -10,10 +10,12 @@ namespace Graduation.States
     public class GameState : State
     {
         private Entities.Player _player;
+        private Entities.BossLevelOne _bossLevelOne;
         private TestMap.Map _map;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             _player = new Entities.Player(game, new Vector2(0, 0));
+            _bossLevelOne = new Entities.BossLevelOne(game, new Vector2(0, 15));
             _map = new TestMap.Map();
 
             _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
@@ -32,6 +34,9 @@ namespace Graduation.States
             _spriteBatch.Begin();
 
             _player.Draw(_spriteBatch, gameTime);
+
+            _bossLevelOne.Draw(_spriteBatch, gameTime);
+            
             _map.Draw(_spriteBatch, gameTime);
         
             _spriteBatch.End();
