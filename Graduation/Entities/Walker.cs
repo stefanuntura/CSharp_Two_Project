@@ -28,14 +28,14 @@ namespace Graduation.Entities
             {
                 ChasePlayer(dt, player, map);
             }
-            else if(player.Health > 0)
+            else //if(player.Health > 0)
             {
                 Stroll(dt, map);
             }
-            else
+            /*else
             {
                 Roam(dt, map);
-            }
+            }*/
         }
 
         public override void LoadContent(Game game)

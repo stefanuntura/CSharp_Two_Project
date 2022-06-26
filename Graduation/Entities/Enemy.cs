@@ -196,7 +196,7 @@ namespace Graduation.Entities
         public void Stroll(float dt, Map map)
         {
             this.dt = dt;
-            Speed = 90;
+            Speed = 70;
             if (_strollLeft)
             {
                 moveLeft(map, (float)Speed);
@@ -210,7 +210,7 @@ namespace Graduation.Entities
         public void ChasePlayer(float dt, Player player, Map map)
         {
             this.dt = dt;
-            Speed = 140;
+            Speed = 110;
             if (!Util.InRangeX(player, this, 3))
             {
                 if (player.Position.X > Position.X)

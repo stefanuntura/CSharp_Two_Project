@@ -18,6 +18,7 @@ namespace Graduation.Entities
         private String _direction = "right";
         private float dt;
         private SpriteFont font;
+        private Healthbar _healthbar;
 
 
         public Player(Game game, Vector2 position) : base(game, position)
@@ -26,6 +27,7 @@ namespace Graduation.Entities
             Speed = 180;
             controller = new InputController(this);
             Health = 100;
+            _healthbar = new Healthbar(game,new Vector2(60,20));
         }
 
         public void Update(GameTime gameTime, Map map)
@@ -172,7 +174,9 @@ namespace Graduation.Entities
         {
             //Sprite.Draw(spriteBatch, Position);
             _animationSprite.Draw(spriteBatch, Position);
-            spriteBatch.DrawString(font, this.Health.ToString(), new Vector2(30, 30), Color.Black);
+            // Health Number Log for testing 
+            spriteBatch.DrawString(font, this.Health >= 0 ? this.Health.ToString() : "0", new Vector2(30, 30), Color.Black);
+            _healthbar.Draw(gameTime,spriteBatch, Health);
 
         }
 
