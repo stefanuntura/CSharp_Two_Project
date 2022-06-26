@@ -23,7 +23,7 @@ namespace Graduation
             _graphics = new GraphicsDeviceManager(this);
             //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -52,6 +52,7 @@ namespace Graduation
             }
 
             _currentState.Update(gameTime);
+
 
             base.Update(gameTime);
         }
