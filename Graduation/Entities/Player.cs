@@ -13,19 +13,33 @@ namespace Graduation.Entities
     {
 
         private bool _canJump = false;
-        private InputController controller;
-        private AnimationSprite _animationSprite;
-        private String _direction = "right";
-        private float dt;
+        InputController controller;
+        AnimationSprite _animationSprite;
+        String _direction = "right";
+        float dt;
+        String _attackDirection = "right";
+        Boolean attack = false;
+        Boolean throwing = false;
         private SpriteFont font;
         private Healthbar _healthbar;
 
+
+        Laptop weapon_1;
+        PC weapon_2;
+        MacBook weapon_3;
+        Weapon weapon;
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
             LoadContent(game);
             Speed = 180;
             controller = new InputController(this);
+            
+
+            weapon_1 = new Laptop(game, new Vector2(14, 10));
+            weapon_2 = new PC(game, new Vector2(14, 11));
+            weapon_3 = new MacBook(game, new Vector2(14, 10));
+            weapon = weapon_1;
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
         }
@@ -170,14 +184,45 @@ namespace Graduation.Entities
             }
         }
 
+        public void throwWeapon()
+        {
+            if (weapon.Timer >= weapon.Cooldown)
+            {
+                attack = true;
+            }
+            
+        }
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            //Sprite.Draw(spriteBatch, Position);
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
             spriteBatch.DrawString(font, this.Health >= 0 ? this.Health.ToString() : "0", new Vector2(30, 30), Color.Black);
             _healthbar.Draw(gameTime,spriteBatch, Health);
 
+            if (attack)
+            {
+                _attackDirection = _direction;
+                weapon.Timer = 0;
+                throwing = true;
+                attack = false;
+
+                weapon.Position.X = Position.X;
+                weapon.Position.Y = Position.Y + (Dimensions.Y / 3);
+
+            } else if (throwing) {
+                
+                    Vector2 newPos = _attackDirection == "right" ? new Vector2(weapon.Position.X + weapon.Speed, weapon.Position.Y) :
+                    new Vector2(weapon.Position.X - weapon.Speed, weapon.Position.Y);
+                    weapon.Draw(spriteBatch, gameTime, newPos);
+
+                if (weapon.Timer > 500) // or collided
+                {
+                    throwing = false;
+                }
+            }
+
+            weapon.Timer += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         public void LoadContent(Game game)
@@ -202,6 +247,22 @@ namespace Graduation.Entities
         {
             Animation currAnim = _animationSprite.CurrentAnimation;
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
+        }
+
+        public void swichWeapon(int i)
+        {
+            switch (i)
+            {
+                case 1:
+                    weapon = weapon_1;
+                    break;
+                case 2:
+                    weapon = weapon_2;
+                    break;
+                case 3:
+                    weapon = weapon_3;
+                    break;
+            }
         }
     }
 }
