@@ -32,6 +32,18 @@ namespace Graduation
                     case Keys.Space:
                         _player.jump();
                         break;
+                    case Keys.K:
+                        _player.throwWeapon();
+                        break;
+                    case Keys.D1:
+                        _player.swichWeapon(1);
+                        break;
+                    case Keys.D2:
+                        _player.swichWeapon(2);
+                        break;
+                    case Keys.D3:
+                        _player.swichWeapon(3);
+                        break;
                 }
             }
         }
