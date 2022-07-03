@@ -1,5 +1,6 @@
 ﻿using Graduation.Entities;
 using Graduation.TestMap;
+using System.Diagnostics;
 
 namespace Graduation
 {
@@ -14,10 +15,26 @@ namespace Graduation
 
         public void handleAttackPatterns(float timer, Map map)
         {
-            if(timer % 3 == 0)
+            bool attackPatternOne = false;
+            bool attackPatternTwo = false;
+            bool attackPatternThree = false;
+
+
+            if ((int)timer % 2 == 0)
             {
-                _bossLevelOne.dashAttack(map);
+                _bossLevelOne.dashRight(map);
+                attackPatternOne = true;
             }
+            else
+            {
+                _bossLevelOne.dashLeft(map);
+                attackPatternOne = true;
+            }
+
+            //if (attackPatternOne)
+            //{
+            //    _bossLevelOne.idle(map);
+            //}
         }
     }
 }

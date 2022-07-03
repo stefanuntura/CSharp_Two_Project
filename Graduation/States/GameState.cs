@@ -161,7 +161,7 @@ namespace Graduation.States
             {
                 enemy.Update(gameTime, _player, _map);                
             }
-
+            
             foreach (Enemy enemy in _enemies)
             {
                 if (enemy.Health <= 0)
@@ -173,6 +173,7 @@ namespace Graduation.States
 			
 			_player.Update(gameTime, _map, this);
             _camera.Follow(_player);
+            _bossLevelOne.Update(gameTime, _map);
         }
     }
 }
