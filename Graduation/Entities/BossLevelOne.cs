@@ -184,6 +184,7 @@ namespace Graduation.Entities
         {
             _animationSprite.SetActive("StandLeft");
             _direction = "left";
+            Speed = 0;
             changePlayerDimensions();
         }
     }
