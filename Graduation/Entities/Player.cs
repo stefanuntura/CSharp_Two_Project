@@ -251,7 +251,7 @@ namespace Graduation.Entities
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
         }
 
-        public void swichWeapon(int i)
+        public void switchWeapon(int i)
         {
             switch (i)
             {
