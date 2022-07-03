@@ -12,6 +12,7 @@ namespace Graduation.States
     public class GameState : State
     {
 
+        private Camera _camera;
         private Player _player;
         private List<Enemy> _enemies;
         private Entities.BossLevelOne _bossLevelOne;
@@ -19,6 +20,7 @@ namespace Graduation.States
         private double _counter = 0;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
+            _camera = new Camera();
             _player = new Player(game, new Vector2(0, 0));
             _bossLevelOne = new Entities.BossLevelOne(game, new Vector2(0, 15));
             _enemies = new List<Enemy>();
@@ -39,7 +41,7 @@ namespace Graduation.States
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
             //_spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _player.Draw(_spriteBatch, gameTime);
 
             foreach (Enemy enemy in _enemies)
@@ -62,6 +64,7 @@ namespace Graduation.States
                 if(_counter > 3000) { _game.ChangeState(new MenuState(_game, _graphicsDevice, _contentManager)); }
             }
             _player.Update(gameTime, _map);
+            _camera.Follow(_player);
             foreach (Enemy enemy in _enemies)
             {
                 enemy.Update(gameTime, _player, _map);
