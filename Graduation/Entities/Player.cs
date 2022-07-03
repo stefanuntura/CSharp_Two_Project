@@ -20,7 +20,6 @@ namespace Graduation.Entities
         String _attackDirection = "right";
         Boolean attack = false;
         Boolean throwing = false;
-        private SpriteFont font;
         private Healthbar _healthbar;
 
 
@@ -47,6 +46,7 @@ namespace Graduation.Entities
 
         public void Update(GameTime gameTime, Map map)
         {
+            Debug.WriteLine(Position.X.ToString(), Position.Y.ToString());
             if (Health <= 0)
             {
                 //Debug.WriteLine("Accessed");
@@ -165,6 +165,7 @@ namespace Graduation.Entities
             {
                 if (Gravity < 0)
                 {
+                    Debug.WriteLine("teest");
                     Position = new Vector2(Position.X, collidedBox.Position.Y + collidedBox.Dimensions.Y + 1);
                     Gravity = 0;
                     _animationSprite.SetActive(_direction == "right" ? "DownRight" : "DownLeft");
@@ -199,8 +200,7 @@ namespace Graduation.Entities
         {
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
-            spriteBatch.DrawString(font, this.Health >= 0 ? this.Health.ToString() : "0", new Vector2(30, 30), Color.Black);
-            _healthbar.Draw(gameTime,spriteBatch, Health);
+            _healthbar.Draw(gameTime,spriteBatch, Health, Position);
 
             if (attack)
             {
@@ -241,7 +241,6 @@ namespace Graduation.Entities
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
               { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
-            font = game.Content.Load<SpriteFont>("Fonts/Font");
             changePlayerDimensions();
         }
 
