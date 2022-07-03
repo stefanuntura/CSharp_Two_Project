@@ -46,10 +46,8 @@ namespace Graduation.Entities
 
         public void Update(GameTime gameTime, Map map)
         {
-            Debug.WriteLine(Position.X.ToString(), Position.Y.ToString());
             if (Health <= 0)
             {
-                //Debug.WriteLine("Accessed");
                 _animationSprite.SetActive("Dead");
             }
             else
@@ -64,7 +62,6 @@ namespace Graduation.Entities
 
                 moveY(map);
                 _animationSprite.Update(gameTime);
-                //Debug.WriteLine(Dimensions.Y);
             }
         }
 
@@ -165,7 +162,6 @@ namespace Graduation.Entities
             {
                 if (Gravity < 0)
                 {
-                    Debug.WriteLine("teest");
                     Position = new Vector2(Position.X, collidedBox.Position.Y + collidedBox.Dimensions.Y + 1);
                     Gravity = 0;
                     _animationSprite.SetActive(_direction == "right" ? "DownRight" : "DownLeft");
