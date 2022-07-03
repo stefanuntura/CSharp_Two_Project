@@ -21,7 +21,7 @@ namespace Graduation.Entities
         Boolean attack = false;
         Boolean throwing = false;
         private SpriteFont font;
-        private Healthbar _healthbar;
+        public Healthbar _healthbar { get; set}
 
 
         Laptop weapon_1;
