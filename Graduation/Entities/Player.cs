@@ -11,7 +11,7 @@ namespace Graduation.Entities
 {
     public class Player : Entity
     {
-
+        PositionHandler handler;
         private bool _canJump = false;
         InputController controller;
         AnimationSprite _animationSprite;
@@ -42,6 +42,7 @@ namespace Graduation.Entities
             weapon = weapon_1;
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
+            handler = new PositionHandler();
         }
 
         public void Update(GameTime gameTime, Map map)
@@ -60,6 +61,7 @@ namespace Graduation.Entities
                     _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
 
                 controller.handleInput(map);
+
                 moveY(map);
                 _animationSprite.Update(gameTime);
                 //Debug.WriteLine(Dimensions.Y);
@@ -249,7 +251,7 @@ namespace Graduation.Entities
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
         }
 
-        public void swichWeapon(int i)
+        public void switchWeapon(int i)
         {
             switch (i)
             {
