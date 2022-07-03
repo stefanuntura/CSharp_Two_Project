@@ -15,14 +15,14 @@ namespace Graduation.States
         private Player _player;
         private List<Enemy> _enemies;
         public List<Item> Items;
-        private Entities.BossLevelOne _bossLevelOne;
+        private BossLevelOne _bossLevelOne;
         private TestMap.Map _map;
         private double _counter = 0;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             _camera = new Camera();
             _player = new Player(game, new Vector2(1, 400));
-            _bossLevelOne = new Entities.BossLevelOne(game, new Vector2(0, 15));
+            _bossLevelOne = new BossLevelOne(game, new Vector2(0, 15));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
 

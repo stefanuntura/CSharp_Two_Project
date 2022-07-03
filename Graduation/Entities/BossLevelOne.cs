@@ -37,9 +37,8 @@ namespace Graduation.Entities
         {
             Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            controller.handleAttackPatterns(Time, map);
-
             moveY(map);
+            controller.handleAttackPatterns(Gravity, Time, map);
             _animationSprite.Update(gameTime);
         }
 
@@ -56,7 +55,6 @@ namespace Graduation.Entities
 
         public void LoadContent(Game game)
         {
-            //font = ContentManager.Load<SpriteFont>("Fonts/Font.spritefont");
             _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
               { "DashRight", new Animation(game.Content.Load<Texture2D>("Bosses/BossLevelOneDashRight"), 1) },
@@ -154,6 +152,7 @@ namespace Graduation.Entities
                 {
                     collision = true;
                     collidedBox = box;
+                    Gravity = 0;
                     break;
                 }
             }
