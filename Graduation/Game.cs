@@ -52,6 +52,7 @@ namespace Graduation
             //    Exit();
             if(_nextState != null)
             {
+                
                 _currentState = _nextState;
                 _nextState = null;
             }
