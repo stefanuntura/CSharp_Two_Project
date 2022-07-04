@@ -10,6 +10,9 @@ namespace Graduation
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        public static int ScreenHeight;
+        public static int ScreenWidth;
+
         private State _currentState;
         private State _nextState;
 
@@ -28,6 +31,9 @@ namespace Graduation
 
         protected override void Initialize()
         {
+            ScreenHeight = _graphics.PreferredBackBufferHeight;
+            ScreenWidth = _graphics.PreferredBackBufferWidth;
+
             IsMouseVisible = true;
 
             base.Initialize();
@@ -46,6 +52,7 @@ namespace Graduation
             //    Exit();
             if(_nextState != null)
             {
+                
                 _currentState = _nextState;
                 _nextState = null;
             }

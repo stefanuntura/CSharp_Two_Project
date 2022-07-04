@@ -84,5 +84,17 @@ namespace Graduation
             float distanceY = Math.Abs(e1.Position.Y + (e1.Dimensions.Y / 2) - e2.Position.Y);
             return distanceX < maxDistance && distanceY < maxDistance;
         }
+
+        public static bool CollectedItem(Entity e1, Item i)
+        {
+            if (e1.Position.Y <= i.Position.Y + i.Dimensions.Y && e1.Position.Y + e1.Dimensions.Y >= i.Position.Y)
+            {
+                if (e1.Position.X <= i.Position.X + i.Dimensions.X && e1.Position.X + e1.Dimensions.X >= i.Position.X)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
