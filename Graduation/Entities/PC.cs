@@ -10,9 +10,10 @@ namespace Graduation.Entities
     {
         public PC(Game game, Vector2 dimension) : base(game, dimension)
         {
-            Timer = 1000;
+            attackTimer = 1000;
             Cooldown = 1000;
             Speed = 3;
+            Damage = 30;
         }
 
         public override void LoadContent(Game game)

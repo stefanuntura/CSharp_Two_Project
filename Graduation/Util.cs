@@ -41,6 +41,31 @@ namespace Graduation
             return false;
         }
 
+        public static bool weaponHitEnemy(Weapon e1, Entity e2)
+        {
+            if (e1.Position.Y <= e2.Position.Y + e2.Dimensions.Y && e1.Position.Y + e1.Dimension.Y >= e2.Position.Y)
+            {
+                if (e1.Position.X <= e2.Position.X + e2.Dimensions.X && e1.Position.X + e1.Dimension.X >= e2.Position.X)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool weaponHitWall(Weapon e1, Box e2)
+        {
+            if (e1.Position.Y <= e2.Position.Y + e2.Dimensions.Y && e1.Position.Y + e1.Dimension.Y >= e2.Position.Y)
+            {
+                if (e1.Position.X <= e2.Position.X + e2.Dimensions.X && e1.Position.X + e1.Dimension.X >= e2.Position.X)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         public static bool newPositionBoxCollision(Entity e, Map map, Vector2 newPos)
         {
             foreach (Box box in map.Boxes)

@@ -8,7 +8,7 @@ using Graduation.Animations;
 
 namespace Graduation.Entities
 {
-    abstract class Enemy : Entity
+    public abstract class Enemy : Entity
     {
         public AnimationSprite AnimationSprite;
         private bool _isWalking;

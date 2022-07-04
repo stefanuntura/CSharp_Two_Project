@@ -10,9 +10,10 @@ namespace Graduation.Entities
     {
         public MacBook(Game game, Vector2 dimension) : base(game, dimension)
         {
-            Timer = 750;
+            attackTimer = 750;
             Cooldown = 750;
             Speed = 6;
+            Damage = 20;
         }
 
         public override void LoadContent(Game game)

@@ -52,12 +52,24 @@ namespace Graduation.States
             if(_player.Health <= 0)
             {
                 _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                if(_counter > 3000) { _game.ChangeState(new MenuState(_game, _graphicsDevice, _contentManager)); }
+                if(_counter > 1500) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
             _player.Update(gameTime, _map);
+
+            _player.weapon.Update(gameTime, _player, _enemies, _map);
+
+            foreach (Enemy enemy  in _enemies)
+            {
+                enemy.Update(gameTime, _player, _map);                
+            }
+
             foreach (Enemy enemy in _enemies)
             {
-                enemy.Update(gameTime, _player, _map);
+                if (enemy.Health <= 0)
+                {
+                    _enemies.Remove(enemy);
+                    break;
+                }
             }
         }
     }
