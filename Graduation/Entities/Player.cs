@@ -71,6 +71,9 @@ namespace Graduation.Entities
             if (Health <= 0)
             {
                 _animationSprite.SetActive("Dead");
+                _animationSprite.Update(gameTime);
+                moveY(map);
+                changePlayerDimensions();
             }
             else
             {
