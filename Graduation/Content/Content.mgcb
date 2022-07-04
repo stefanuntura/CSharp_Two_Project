@@ -73,6 +73,13 @@
 /processorParam:TextureFormat=Color
 /build:Controls/GameTitle.png
 
+#begin Fonts/EffectFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/EffectFont.spritefont
+
 #begin Fonts/Font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

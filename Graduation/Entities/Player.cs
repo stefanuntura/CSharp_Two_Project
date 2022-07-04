@@ -238,6 +238,12 @@ namespace Graduation.Entities
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
 
             weapon.attack(gameTime, spriteBatch, this);
+
+            if (0 < _effectTimer && _effectTimer <= 2)
+            {
+                float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
+                spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
+            }
         }
 
         public void LoadContent(Game game)
@@ -255,7 +261,7 @@ namespace Graduation.Entities
               { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
 
-            _font = game.Content.Load<SpriteFont>("Fonts/ItemFont");
+            _font = game.Content.Load<SpriteFont>("Fonts/EffectFont");
             changePlayerDimensions();
         }
 
