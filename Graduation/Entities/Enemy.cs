@@ -21,15 +21,17 @@ namespace Graduation.Entities
         protected double _collisionDamageCooldown = 0;
         protected double _collisionDamage;
         protected double _attackRange;
+        public Texture2D Texture { get; set; }
 
         public Enemy(Game game, Vector2 position, float speed, float health, float damage, double collisionDamage, double attackRange) : base(game, position)
         {
-            LoadContent(game);
             Speed = speed;
             Health = health;
             Damage = damage;
             _collisionDamage = collisionDamage;
             _attackRange = attackRange;
+            Position = position;
+            LoadContent(game);
         }
 
         public void moveLeft(Map map, float distance)
@@ -251,15 +253,22 @@ namespace Graduation.Entities
             }
         }
 
-
         public abstract void Update(GameTime gameTime, Player player, Map map);
 
-        public abstract void LoadContent(Game game);
-
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public abstract void LoadContent(Game game)
         {
-            //Sprite.Draw(spriteBatch, Position);
+            // Texture for healthbar
+
+            /*Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Texture.SetData(new[] { Color.White });*/
+        }
+
+        public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            // Draw Healthbar
+            //spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 10, (int)Health, 1), Color.Red);
             AnimationSprite.Draw(spriteBatch, Position);
+
         }
     }
 }

@@ -53,6 +53,7 @@ namespace Graduation.Entities
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
             }, "StandRight", Color.Red);
+            
         }
 
         public void HitPlayer(Player player)
