@@ -92,18 +92,6 @@
 /processorParam:TextureFormat=Color
 /build:GameTitle.png
 
-#begin GameTitle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GameTitle.png
-
 #begin Health/bar.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -127,6 +115,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Health/healthbar.png
+
+#begin Item/backpack.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Item/backpack.png
 
 #begin Player/DownLeft.png
 /importer:TextureImporter

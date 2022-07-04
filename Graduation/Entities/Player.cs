@@ -6,6 +6,7 @@ using Graduation.Graphics;
 using Graduation.TestMap;
 using Graduation.Animations;
 using System.Diagnostics;
+using Graduation.States;
 
 namespace Graduation.Entities
 {
@@ -21,6 +22,14 @@ namespace Graduation.Entities
         Boolean attack = false;
         Boolean throwing = false;
         private Healthbar _healthbar;
+
+        //Effect 
+        private List<PlayerEffect> _effects;
+        private SpriteFont _font;
+        private int _currentEffect;
+        private bool _effectActivated;
+        private double _effectTimer;
+        private double _defaultSpeed;
 
 
         Laptop weapon_1;
@@ -42,9 +51,21 @@ namespace Graduation.Entities
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
             handler = new PositionHandler();
+            _effectTimer = 0;
+            _effects = new List<PlayerEffect>();
+            _defaultSpeed = Speed;
+            _currentEffect = 1;
+
+            //Creating effects
+            _effects.Add(new PlayerEffect("20s Speedboost", true, 20));
+            _effects.Add(new PlayerEffect("10s Slowness", false, 10));
+            _effects.Add(new PlayerEffect("+10 Health", true, 2));
+            _effects.Add(new PlayerEffect("-5 Health", false, 2));
+            //_effects.Add(new PlayerEffect("+5% Damage", true, 0));
+            //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
 
-        public void Update(GameTime gameTime, Map map)
+        public void Update(GameTime gameTime, Map map, GameState gs)
         {
             if (Health <= 0)
             {
@@ -62,6 +83,20 @@ namespace Graduation.Entities
 
                 moveY(map);
                 _animationSprite.Update(gameTime);
+
+                foreach (Item item in gs.Items)
+                {
+                    if (Util.CollectedItem(this, item))
+                    {
+                        _effectTimer = 0;
+                        _currentEffect = (int)Util.RandomDouble(0, _effects.Count - 1);
+                        _effectActivated = false;
+                        gs.Items.Remove(item);
+                        break;
+                    }
+                }
+                _effectTimer += _effectActivated ? gameTime.ElapsedGameTime.TotalSeconds : 0;
+                HandleEffects();
             }
         }
 
@@ -220,6 +255,12 @@ namespace Graduation.Entities
                 }
             }
 
+            if ( 0 < _effectTimer && _effectTimer <= 2)
+            {
+                float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
+                spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
+            }
+            
             weapon.Timer += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
@@ -237,6 +278,8 @@ namespace Graduation.Entities
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
               { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
+
+            _font = game.Content.Load<SpriteFont>("Fonts/ItemFont");
             changePlayerDimensions();
         }
 
@@ -259,6 +302,40 @@ namespace Graduation.Entities
                 case 3:
                     weapon = weapon_3;
                     break;
+            }
+        }
+
+        public void HandleEffects()
+        {
+            if (!_effectActivated && _effects[_currentEffect].TimeSpan > _effectTimer)
+            {
+                switch (_currentEffect)
+                {
+                    case 0:
+                        Speed += 30;
+
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 1:
+                        Speed -= 30;
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 2:
+                        Health = Health + 10 >= 100 ? 100 : Health + 10;
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 3:
+                        Health = Health - 5 <= 0 ? 0 : Health -  5;
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 200:
+                        break;
+                }
+                _effectActivated = true;
+            }
+            else if(_effects[_currentEffect].TimeSpan <= _effectTimer && _effectActivated)
+            {
+                Speed = _defaultSpeed;
             }
         }
     }
