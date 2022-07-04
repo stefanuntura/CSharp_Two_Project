@@ -37,7 +37,7 @@ namespace Graduation
         public virtual void LoadContent(Game game)
         {
 
-            font = game.Content.Load<SpriteFont>("Fonts/EffectFont");
+            font = game.Content.Load<SpriteFont>("Fonts/Font");
             _healthbar = game.Content.Load<Texture2D>("Health/healthbar");
             _bar = game.Content.Load<Texture2D>("Health/bar");
         }
