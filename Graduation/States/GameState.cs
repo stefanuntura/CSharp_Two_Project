@@ -31,6 +31,15 @@ namespace Graduation.States
             Items.Add(new Item(game, new Vector2(430, 300), new Vector2(25, 26)));
             _map = new TestMap.Map();
 
+            _map.Generate (game,new int[,] {
+                {0,0,0,0,},
+                {0,0,0,1,},
+                {0,0,1,1,},
+                {0,1,1,1,},
+                {1,1,1,1,},
+            }, 32);
+
+
             _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
             _map.addBox(new TestMap.Box(game, new Vector2(200, 700), new Vector2(780, 0), Color.DarkSlateGray));
             _map.addBox(new TestMap.Box(game, new Vector2(40, 400), new Vector2(740, 380), Color.DarkSlateGray));
@@ -73,7 +82,7 @@ namespace Graduation.States
 				
                 if(_counter > 1500) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
-            _player.Update(gameTime, _map);
+            _player.Update(gameTime, _map, this);
             _camera.Follow(_player);
             _player.weapon.Update(gameTime, _player, _enemies, _map);
 
