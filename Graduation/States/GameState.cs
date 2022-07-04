@@ -71,7 +71,7 @@ namespace Graduation.States
             if(_player.Health <= 0)
             {
                 _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                if(_counter > 3000) { _game.ChangeState(new MenuState(_game, _graphicsDevice, _contentManager)); }
+                if(_counter > 3000) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
             _player.Update(gameTime, _map, this);
             _camera.Follow(_player);

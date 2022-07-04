@@ -54,9 +54,10 @@ namespace Graduation.Entities
             _effectTimer = 0;
             _effects = new List<PlayerEffect>();
             _defaultSpeed = Speed;
-            _currentEffect = 1;
+            _effectActivated = true;
 
             //Creating effects
+            _effects.Add(new PlayerEffect("", true, 0));
             _effects.Add(new PlayerEffect("20s Speedboost", true, 20));
             _effects.Add(new PlayerEffect("10s Slowness", false, 10));
             _effects.Add(new PlayerEffect("+10 Health", true, 2));
@@ -89,7 +90,7 @@ namespace Graduation.Entities
                     if (Util.CollectedItem(this, item))
                     {
                         _effectTimer = 0;
-                        _currentEffect = (int)Util.RandomDouble(0, _effects.Count - 1);
+                        _currentEffect = (int)Util.RandomDouble(1, _effects.Count - 1);
                         _effectActivated = false;
                         gs.Items.Remove(item);
                         break;
@@ -311,24 +312,22 @@ namespace Graduation.Entities
             {
                 switch (_currentEffect)
                 {
-                    case 0:
+                    case 1:
                         Speed += 30;
 
                         Debug.WriteLine("Accessed");
                         break;
-                    case 1:
+                    case 2:
                         Speed -= 30;
                         Debug.WriteLine("Accessed");
                         break;
-                    case 2:
+                    case 3:
                         Health = Health + 10 >= 100 ? 100 : Health + 10;
                         Debug.WriteLine("Accessed");
                         break;
-                    case 3:
+                    case 4:
                         Health = Health - 5 <= 0 ? 0 : Health -  5;
                         Debug.WriteLine("Accessed");
-                        break;
-                    case 200:
                         break;
                 }
                 _effectActivated = true;
