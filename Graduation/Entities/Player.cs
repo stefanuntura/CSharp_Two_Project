@@ -255,7 +255,7 @@ namespace Graduation.Entities
               { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
 
-            _font = game.Content.Load<SpriteFont>("Fonts/itemFont");
+            _font = game.Content.Load<SpriteFont>("Fonts/ItemFont");
             changePlayerDimensions();
         }
 
