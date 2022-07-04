@@ -6,6 +6,7 @@ using Graduation.Graphics;
 using Graduation.TestMap;
 using Graduation.Animations;
 using System.Diagnostics;
+using Graduation.States;
 
 namespace Graduation.Entities
 {
@@ -15,19 +16,26 @@ namespace Graduation.Entities
         private bool _canJump = false;
         InputController controller;
         AnimationSprite _animationSprite;
-        String _direction = "right";
+        public String _direction = "right";
         float dt;
-        String _attackDirection = "right";
-        Boolean attack = false;
-        Boolean throwing = false;
+        public Boolean attack = false;
+        public Boolean throwing = false;
         private SpriteFont font;
         private Healthbar _healthbar;
+
+        //Effect 
+        private List<PlayerEffect> _effects;
+        private SpriteFont _font;
+        private int _currentEffect;
+        private bool _effectActivated;
+        private double _effectTimer;
+        private double _defaultSpeed;
 
 
         Laptop weapon_1;
         PC weapon_2;
         MacBook weapon_3;
-        Weapon weapon;
+        public Weapon weapon;
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
@@ -43,14 +51,29 @@ namespace Graduation.Entities
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
             handler = new PositionHandler();
+            _effectTimer = 0;
+            _effects = new List<PlayerEffect>();
+            _defaultSpeed = Speed;
+            _effectActivated = true;
+
+            //Creating effects
+            _effects.Add(new PlayerEffect("", true, 0));
+            _effects.Add(new PlayerEffect("20s Speedboost", true, 20));
+            _effects.Add(new PlayerEffect("10s Slowness", false, 10));
+            _effects.Add(new PlayerEffect("+10 Health", true, 2));
+            _effects.Add(new PlayerEffect("-5 Health", false, 2));
+            //_effects.Add(new PlayerEffect("+5% Damage", true, 0));
+            //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
 
-        public void Update(GameTime gameTime, Map map)
+        public void Update(GameTime gameTime, Map map, GameState gs)
         {
             if (Health <= 0)
             {
-                //Debug.WriteLine("Accessed");
                 _animationSprite.SetActive("Dead");
+                _animationSprite.Update(gameTime);
+                moveY(map);
+                changePlayerDimensions();
             }
             else
             {
@@ -64,7 +87,20 @@ namespace Graduation.Entities
 
                 moveY(map);
                 _animationSprite.Update(gameTime);
-                //Debug.WriteLine(Dimensions.Y);
+
+                foreach (Item item in gs.Items)
+                {
+                    if (Util.CollectedItem(this, item))
+                    {
+                        _effectTimer = 0;
+                        _currentEffect = (int)Util.RandomDouble(1, _effects.Count - 1);
+                        _effectActivated = false;
+                        gs.Items.Remove(item);
+                        break;
+                    }
+                }
+                _effectTimer += _effectActivated ? gameTime.ElapsedGameTime.TotalSeconds : 0;
+                HandleEffects();
             }
         }
 
@@ -188,7 +224,7 @@ namespace Graduation.Entities
 
         public void throwWeapon()
         {
-            if (weapon.Timer >= weapon.Cooldown)
+            if (weapon.attackTimer >= weapon.Cooldown)
             {
                 attack = true;
             }
@@ -199,32 +235,15 @@ namespace Graduation.Entities
         {
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
-            spriteBatch.DrawString(font, this.Health >= 0 ? this.Health.ToString() : "0", new Vector2(30, 30), Color.Black);
-            _healthbar.Draw(gameTime,spriteBatch, Health);
+            _healthbar.Draw(gameTime,spriteBatch, Health, Position);
 
-            if (attack)
+            weapon.attack(gameTime, spriteBatch, this);
+
+            if (0 < _effectTimer && _effectTimer <= 2)
             {
-                _attackDirection = _direction;
-                weapon.Timer = 0;
-                throwing = true;
-                attack = false;
-
-                weapon.Position.X = Position.X;
-                weapon.Position.Y = Position.Y + (Dimensions.Y / 3);
-
-            } else if (throwing) {
-                
-                    Vector2 newPos = _attackDirection == "right" ? new Vector2(weapon.Position.X + weapon.Speed, weapon.Position.Y) :
-                    new Vector2(weapon.Position.X - weapon.Speed, weapon.Position.Y);
-                    weapon.Draw(spriteBatch, gameTime, newPos);
-
-                if (weapon.Timer > 500) // or collided
-                {
-                    throwing = false;
-                }
+                float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
+                spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
-
-            weapon.Timer += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         public void LoadContent(Game game)
@@ -241,7 +260,8 @@ namespace Graduation.Entities
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
               { "Dead", new Animation(game.Content.Load<Texture2D>("Player/PlayerDead"), 1) },
             }, "StandRight", Color.White);
-            font = game.Content.Load<SpriteFont>("Fonts/Font");
+
+            _font = game.Content.Load<SpriteFont>("Fonts/Font");
             changePlayerDimensions();
         }
 
@@ -251,7 +271,7 @@ namespace Graduation.Entities
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
         }
 
-        public void swichWeapon(int i)
+        public void switchWeapon(int i)
         {
             switch (i)
             {
@@ -264,6 +284,38 @@ namespace Graduation.Entities
                 case 3:
                     weapon = weapon_3;
                     break;
+            }
+        }
+
+        public void HandleEffects()
+        {
+            if (!_effectActivated && _effects[_currentEffect].TimeSpan > _effectTimer)
+            {
+                switch (_currentEffect)
+                {
+                    case 1:
+                        Speed += 30;
+
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 2:
+                        Speed -= 30;
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 3:
+                        Health = Health + 10 >= 100 ? 100 : Health + 10;
+                        Debug.WriteLine("Accessed");
+                        break;
+                    case 4:
+                        Health = Health - 5 <= 0 ? 0 : Health -  5;
+                        Debug.WriteLine("Accessed");
+                        break;
+                }
+                _effectActivated = true;
+            }
+            else if(_effects[_currentEffect].TimeSpan <= _effectTimer && _effectActivated)
+            {
+                Speed = _defaultSpeed;
             }
         }
     }

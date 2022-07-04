@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Graduation.Graphics;
+using Graduation.Animations;
 
 namespace Graduation.Entities
 {
     public abstract class Boss : Entity
     {
-        public Sprite Sprite { get; private set; }
+        public AnimationSprite _animationSprite;
         public EntityState State { get; private set; }
         public Vector2 Position { get; set; }
         public double Health { get; set; }
@@ -18,19 +19,8 @@ namespace Graduation.Entities
         public double Damage { get; set; }
         public int DrawOder { get; set; }
 
-        public Boss(Texture2D spriteSheet, Vector2 position, Game game) : base(game, position)
+        public Boss(Game game, Vector2 position) : base(game, position)
         {
-            Sprite = new Sprite(spriteSheet);
-        }
-
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            Sprite.Draw(spriteBatch, this.Position);
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            
         }
     }
 }

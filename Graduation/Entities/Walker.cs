@@ -12,7 +12,8 @@ namespace Graduation.Entities
 {
     class Walker : Enemy
     {
-        public Walker(Game game, Vector2 position) : base(game, position, 180, 100, 10, 3, 40) { }
+        public Walker(Game game, Vector2 position) : base(game, position, 180, 100, 10, 3, 40) {
+        }
 
         public override void Update(GameTime gameTime, Player player, Map map)
         {

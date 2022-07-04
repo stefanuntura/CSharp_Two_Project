@@ -14,14 +14,21 @@ namespace Graduation.States
         private Camera _camera;
         private Player _player;
         private List<Enemy> _enemies;
+        public List<Item> Items;
+        private Entities.BossLevelOne _bossLevelOne;
         private TestMap.Map _map;
         private double _counter = 0;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             _camera = new Camera();
             _player = new Player(game, new Vector2(0, 0));
+            _bossLevelOne = new Entities.BossLevelOne(game, new Vector2(0, 15));
             _enemies = new List<Enemy>();
+            Items = new List<Item>();
             _enemies.Add(new Walker(game, new Vector2(100, 100)));
+            Items.Add(new Item(game, new Vector2(300, 300), new Vector2(25, 26)));
+            Items.Add(new Item(game, new Vector2(380, 300), new Vector2(25, 26)));
+            Items.Add(new Item(game, new Vector2(430, 300), new Vector2(25, 26)));
             _map = new TestMap.Map();
 
             _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
@@ -40,10 +47,19 @@ namespace Graduation.States
             //_spriteBatch.Begin(SpriteSortMode.BackToFront, null);
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _player.Draw(_spriteBatch, gameTime);
+
             foreach (Enemy enemy in _enemies)
             {
                 enemy.Draw(_spriteBatch, gameTime);
             }
+
+            foreach( Item item in Items)
+            {
+                item.Draw(_spriteBatch);
+            }
+
+            _bossLevelOne.Draw(_spriteBatch, gameTime);
+
             _map.Draw(_spriteBatch, gameTime);
 
             _spriteBatch.End();
@@ -54,14 +70,29 @@ namespace Graduation.States
             if(_player.Health <= 0)
             {
                 _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                if(_counter > 3000) { _game.ChangeState(new MenuState(_game, _graphicsDevice, _contentManager)); }
+				
+                if(_counter > 1500) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
             _player.Update(gameTime, _map);
             _camera.Follow(_player);
+            _player.weapon.Update(gameTime, _player, _enemies, _map);
+
+            foreach (Enemy enemy  in _enemies)
+            {
+                enemy.Update(gameTime, _player, _map);                
+            }
+
             foreach (Enemy enemy in _enemies)
             {
-                enemy.Update(gameTime, _player, _map);
+                if (enemy.Health <= 0)
+                {
+                    _enemies.Remove(enemy);
+                    break;
+                }
             }
+			
+			_player.Update(gameTime, _map, this);
+            _camera.Follow(_player);
         }
     }
 }
