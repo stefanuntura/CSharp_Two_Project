@@ -21,7 +21,7 @@ namespace Graduation.Entities
         protected double _collisionDamageCooldown = 0;
         protected double _collisionDamage;
         protected double _attackRange;
-        public Texture2D Texture { get; set; }
+        public Texture2D Texture;
 
         public Enemy(Game game, Vector2 position, float speed, float health, float damage, double collisionDamage, double attackRange) : base(game, position)
         {
@@ -255,7 +255,7 @@ namespace Graduation.Entities
 
         public abstract void Update(GameTime gameTime, Player player, Map map);
 
-        public abstract void LoadContent(Game game)
+        public virtual void LoadContent(Game game)
         {
             // Texture for healthbar
 
@@ -263,10 +263,9 @@ namespace Graduation.Entities
             Texture.SetData(new[] { Color.White });*/
         }
 
-        public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // Draw Healthbar
-            //spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 10, (int)Health, 1), Color.Red);
             AnimationSprite.Draw(spriteBatch, Position);
 
         }
