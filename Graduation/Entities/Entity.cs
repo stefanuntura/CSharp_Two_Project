@@ -13,6 +13,7 @@ namespace Graduation.Entities
         public Vector2 Dimensions { get; set; }
         public double Health { get; set; }
         public double Speed { get; set; }
+        public double VerticalSpeed { get; set; }
         public double Gravity { get; set; }
         public double Damage { get; set; }
 

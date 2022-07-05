@@ -41,7 +41,8 @@ namespace Graduation.Entities
         public Player(Game game, Vector2 position) : base(game, position)
         {
             LoadContent(game);
-            Speed = 180;
+            Speed = 150;
+            VerticalSpeed = 205;
             controller = new InputController(this);
             
             weapon_1 = new Laptop(game, new Vector2(14, 10));
@@ -110,7 +111,7 @@ namespace Graduation.Entities
             _animationSprite.SetActive("WalkRight");
             _direction = "right";
             changePlayerDimensions();
-            if (Position.X < 1265)
+            if (Position.X < 3500)
             {
                 bool collision = false;
                 Box collidedBox = null;
@@ -172,7 +173,7 @@ namespace Graduation.Entities
         public void moveY(Map map)
         {
             float newY;
-            Gravity = Gravity < Speed * 1.5 ? Gravity + 10 : Gravity;
+            Gravity = Gravity < VerticalSpeed * 1.5 ? Gravity + 10 : Gravity;
             changePlayerDimensions();
 
 
@@ -218,7 +219,7 @@ namespace Graduation.Entities
         {
             if (_canJump)
             {
-                Gravity = -Speed * 1.7f;
+                Gravity = -VerticalSpeed * 1.7f;
                 _canJump = false;
             }
         }

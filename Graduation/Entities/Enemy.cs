@@ -81,7 +81,7 @@ namespace Graduation.Entities
             AnimationSprite.SetActive("WalkRight");
             _direction = "right";
             changeDimensions();
-            if (Position.X < 1265)
+            if (Position.X < 2500)
             {
                 bool collision = false;
                 Box collidedBox = null;
