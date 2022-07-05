@@ -77,12 +77,13 @@ namespace Graduation.TestMap
 
                     //if number number = 0, blank space
                     if (number > 0)
-                        Boxes.Add(new Box(game, new Vector2(x * size, y * size), new Vector2(size, size), Color.Black));
+                        Boxes.Add(new Box(game, new Vector2(size,size), new Vector2((x * size), (y * size)), Color.Black));
 
                     width = (x + 1) * size;
                     height = (y + 1) * size;
                 }
             }
         }
+        
     }
 }
