@@ -40,6 +40,8 @@ namespace Graduation.Entities
             _direction = "left";
             changeDimensions();
 
+            
+
             if (Position.X > 0)
             {
                 bool collision = false;

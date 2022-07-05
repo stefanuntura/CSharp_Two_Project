@@ -21,6 +21,7 @@ namespace Graduation.Entities
             _attackCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            AnimationSprite.Update(gameTime);
             FallDown(dt, map);
             DealCollisionDamage(player, map);
             HitPlayer(player);
