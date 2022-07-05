@@ -33,8 +33,8 @@ namespace Graduation.Entities
 
         //weapon & hotbar
         Laptop weapon_1;
-        PC weapon_2;
-        MacBook weapon_3;
+        MacBook weapon_2;
+        PC weapon_3;
         public Weapon weapon;
         private Hotbar _hotbar;
 
@@ -46,8 +46,9 @@ namespace Graduation.Entities
             controller = new InputController(this);
             
             weapon_1 = new Laptop(game, new Vector2(14, 10));
-            weapon_2 = new PC(game, new Vector2(14, 11));
-            weapon_3 = new MacBook(game, new Vector2(14, 10));
+            weapon_2 = new MacBook(game, new Vector2(14, 10));
+            weapon_3 = new PC(game, new Vector2(14, 11));
+            
             weapon = weapon_1;
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
