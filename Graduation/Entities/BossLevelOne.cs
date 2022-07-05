@@ -76,7 +76,7 @@ namespace Graduation.Entities
             _animationSprite.SetActive("DashRight");
             _direction = "right";
             changePlayerDimensions();
-            if (Position.X < 1265)
+            if (Position.X < 3500)
             {
                 bool collision = false;
                 Box collidedBox = null;
@@ -108,7 +108,7 @@ namespace Graduation.Entities
             _animationSprite.SetActive("DashLeft");
             _direction = "left";
             changePlayerDimensions();
-            if (Position.X > 0)
+            if (Position.X > 3000)
             {
                 bool collision = false;
                 Box collidedBox = null;

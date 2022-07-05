@@ -20,9 +20,12 @@ namespace Graduation.States
         private double _counter = 0;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
+            //Initialize map
+            _map = new TestMap.Map();
+
             _camera = new Camera();
             _player = new Player(game, new Vector2(1, 400));
-            _bossLevelOne = new BossLevelOne(game, new Vector2(0, 15));
+            _bossLevelOne = new BossLevelOne(game, new Vector2(3000, -400));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
 
@@ -41,9 +44,6 @@ namespace Graduation.States
 
             //Add item box lootbox area quadrant two
             Items.Add(new Item(game, new Vector2(2150, -80), new Vector2(25, 26)));
-
-            //Initialize map
-            _map = new TestMap.Map();
 
             //Quadrant One
             //Add floor quadrant one
