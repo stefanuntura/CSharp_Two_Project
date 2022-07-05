@@ -21,24 +21,45 @@ namespace Graduation.States
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             _camera = new Camera();
-            _player = new Player(game, new Vector2(0, 0));
+            _player = new Player(game, new Vector2(1, 400));
             _bossLevelOne = new Entities.BossLevelOne(game, new Vector2(0, 15));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
-            _enemies.Add(new Walker(game, new Vector2(100, 100)));
-            Items.Add(new Item(game, new Vector2(300, 300), new Vector2(25, 26)));
+
+            //Add walkers
+            _enemies.Add(new Walker(game, new Vector2(100, 400)));
+            _enemies.Add(new Walker(game, new Vector2(1000, 400)));
+            _enemies.Add(new Walker(game, new Vector2(1500, 500)));
+
+            //Add item boxes
+            Items.Add(new Item(game, new Vector2(300, 412), new Vector2(25, 26)));
             Items.Add(new Item(game, new Vector2(380, 300), new Vector2(25, 26)));
             Items.Add(new Item(game, new Vector2(430, 300), new Vector2(25, 26)));
             _map = new TestMap.Map();
 
-            _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
-            _map.addBox(new TestMap.Box(game, new Vector2(200, 700), new Vector2(780, 0), Color.DarkSlateGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(1500, 100), new Vector2(0, 440), Color.DarkSlateGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(200, 300), new Vector2(900, 0), Color.DarkSlateGray));
+            //Add wall on right and left
+            _map.addBox(new TestMap.Box(game, new Vector2(200, 700), new Vector2(1500, 0), Color.DarkSlateGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(200, 1500), new Vector2(-200, 0), Color.DarkSlateGray));
+
+            //Add ceiling
+            _map.addBox(new TestMap.Box(game, new Vector2(1000, 100), new Vector2(0, 0), Color.DarkSlateGray));
+
+            //Add platforms in left area
             _map.addBox(new TestMap.Box(game, new Vector2(40, 400), new Vector2(740, 380), Color.DarkSlateGray));
             _map.addBox(new TestMap.Box(game, new Vector2(50, 400), new Vector2(690, 405), Color.DarkSlateGray));
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(100, 300), Color.DarkGray));
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(300, 350), Color.DarkGray));
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(200, 380), Color.DarkGray));
             _map.addBox(new TestMap.Box(game, new Vector2(60, 15), new Vector2(440, 400), Color.DarkGray));
+
+            //Add platforms in right area
+            _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1150, 380), Color.DarkGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1300, 200), Color.DarkGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1400, 350), Color.DarkGray));
+            _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1220, 280), Color.DarkGray));
+
             _map.LoadContent(game);
         }
 
