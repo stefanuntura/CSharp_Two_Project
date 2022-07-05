@@ -12,7 +12,7 @@ namespace Graduation.Entities
 {
     class Walker : Enemy
     {
-        public Walker(Game game, Vector2 position) : base(game, position, 180, 100, 10, 3, 40) {
+        public Walker(Game game, Vector2 position) : base(game, position, 180, 70, 10, 3, 40) {
         }
 
         public override void Update(GameTime gameTime, Player player, Map map)
@@ -21,6 +21,7 @@ namespace Graduation.Entities
             _attackCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            AnimationSprite.Update(gameTime);
             FallDown(dt, map);
             DealCollisionDamage(player, map);
             HitPlayer(player);
@@ -53,6 +54,8 @@ namespace Graduation.Entities
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
             }, "StandRight", Color.Red);
+            Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Texture.SetData(new[] { Color.White });
         }
 
         public void HitPlayer(Player player)
@@ -62,6 +65,13 @@ namespace Graduation.Entities
                 player.Health -= Damage;
                 _attackCooldown = 0;
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
+
+            AnimationSprite.Draw(spriteBatch, Position);
         }
     }
 }

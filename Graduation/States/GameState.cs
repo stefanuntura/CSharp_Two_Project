@@ -73,7 +73,7 @@ namespace Graduation.States
 				
                 if(_counter > 1500) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
-            _player.Update(gameTime, _map);
+            _player.Update(gameTime, _map, this);
             _camera.Follow(_player);
             _player.weapon.Update(gameTime, _player, _enemies, _map);
 
