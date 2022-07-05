@@ -31,11 +31,12 @@ namespace Graduation.Entities
         private double _effectTimer;
         private double _defaultSpeed;
 
-
+        //weapon & hotbar
         Laptop weapon_1;
         PC weapon_2;
         MacBook weapon_3;
         public Weapon weapon;
+        private Hotbar _hotbar;
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
@@ -43,13 +44,13 @@ namespace Graduation.Entities
             Speed = 180;
             controller = new InputController(this);
             
-
             weapon_1 = new Laptop(game, new Vector2(14, 10));
             weapon_2 = new PC(game, new Vector2(14, 11));
             weapon_3 = new MacBook(game, new Vector2(14, 10));
             weapon = weapon_1;
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
+            _hotbar = new Hotbar(game);
             handler = new PositionHandler();
             _effectTimer = 0;
             _effects = new List<PlayerEffect>();
@@ -228,7 +229,6 @@ namespace Graduation.Entities
             {
                 attack = true;
             }
-            
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -236,7 +236,7 @@ namespace Graduation.Entities
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
-
+            _hotbar.Draw(gameTime, spriteBatch, Position);
             weapon.attack(gameTime, spriteBatch, this);
 
             if (0 < _effectTimer && _effectTimer <= 2)
@@ -244,6 +244,8 @@ namespace Graduation.Entities
                 float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
                 spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
+  
+
         }
 
         public void LoadContent(Game game)
@@ -277,12 +279,15 @@ namespace Graduation.Entities
             {
                 case 1:
                     weapon = weapon_1;
+                    _hotbar.SelectedWeapon = 1;
                     break;
                 case 2:
                     weapon = weapon_2;
+                    _hotbar.SelectedWeapon = 2;
                     break;
                 case 3:
                     weapon = weapon_3;
+                    _hotbar.SelectedWeapon = 3;
                     break;
             }
         }

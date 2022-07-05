@@ -43,9 +43,11 @@ namespace Graduation.States
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
-        {
-            //_spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+        {   
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
+
+            _map.Draw(_spriteBatch, gameTime);
+
             _player.Draw(_spriteBatch, gameTime);
 
             foreach (Enemy enemy in _enemies)
@@ -59,8 +61,6 @@ namespace Graduation.States
             }
 
             _bossLevelOne.Draw(_spriteBatch, gameTime);
-
-            _map.Draw(_spriteBatch, gameTime);
 
             _spriteBatch.End();
         }
