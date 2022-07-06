@@ -31,7 +31,7 @@ namespace Graduation.Entities
         private double _effectTimer;
         private double _defaultSpeed;
 
-        //weapon & hotbar
+        //weapons & hotbar
         Laptop weapon_1;
         MacBook weapon_2;
         PC weapon_3;
@@ -48,11 +48,12 @@ namespace Graduation.Entities
             weapon_1 = new Laptop(game, new Vector2(14, 10));
             weapon_2 = new MacBook(game, new Vector2(14, 10));
             weapon_3 = new PC(game, new Vector2(14, 11));
+            weapon = weapon_1; //set default
+            _hotbar = new Hotbar(game);
             
-            weapon = weapon_1;
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
-            _hotbar = new Hotbar(game);
+            
             handler = new PositionHandler();
             _effectTimer = 0;
             _effects = new List<PlayerEffect>();
@@ -136,6 +137,8 @@ namespace Graduation.Entities
                 {
                     Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
@@ -168,6 +171,8 @@ namespace Graduation.Entities
                 {
                     Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
@@ -213,6 +218,8 @@ namespace Graduation.Entities
                     Position = new Vector2(Position.X, collidedBox.Position.Y - Dimensions.Y - 1);
                     _canJump = true;
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
@@ -227,6 +234,7 @@ namespace Graduation.Entities
 
         public void throwWeapon()
         {
+            //Called by the InputController, only starts the attack method once cooldown of weapon is down
             if (weapon.attackTimer >= weapon.Cooldown)
             {
                 attack = true;
@@ -277,6 +285,7 @@ namespace Graduation.Entities
 
         public void switchWeapon(int i)
         {
+            //Changes active weapon
             switch (i)
             {
                 case 1:
@@ -323,6 +332,14 @@ namespace Graduation.Entities
             else if(_effects[_currentEffect].TimeSpan <= _effectTimer && _effectActivated)
             {
                 Speed = _defaultSpeed;
+            }
+        }
+
+        public void blockDmg(Box box)
+        {
+            if (box is Spike)
+            {
+                Health -= 5;
             }
         }
     }

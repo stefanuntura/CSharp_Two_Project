@@ -69,6 +69,11 @@ namespace Graduation.States
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(200, 380), Color.DarkGray));
             _map.addBox(new TestMap.Box(game, new Vector2(60, 15), new Vector2(440, 400), Color.DarkGray));
 
+            //Spikes
+            _map.addBox(new TestMap.Spike(game, new Vector2(25, 25), new Vector2(615, 415), Color.Red));
+            _map.addBox(new TestMap.Spike(game, new Vector2(25, 25), new Vector2(640, 415), Color.Red));
+            _map.addBox(new TestMap.Spike(game, new Vector2(25, 25), new Vector2(665, 415), Color.Red));
+
             //Add platforms in right area of quadrant one
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1150, 380), Color.DarkGray));
             _map.addBox(new TestMap.Box(game, new Vector2(50, 15), new Vector2(1300, 200), Color.DarkGray));
@@ -151,7 +156,7 @@ namespace Graduation.States
             {
                 _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
 				
-                if(_counter > 1500) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
+                if(_counter > 1000) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
             _player.Update(gameTime, _map, this);
             _camera.Follow(_player);

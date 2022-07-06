@@ -19,7 +19,7 @@ namespace Graduation.TestMap
             BoxColour = color;
         }
 
-        public void LoadContent(Game game)
+        public virtual void LoadContent(Game game)
         {
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
