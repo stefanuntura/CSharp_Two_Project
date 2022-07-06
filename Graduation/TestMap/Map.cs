@@ -111,7 +111,7 @@ namespace Graduation.TestMap
 
                     //if number number = 0, blank space
                     if (number == 1) { Boxes.Add(new Box(game, new Vector2(size, size), new Vector2((x * size), (y * size)), Color.Black)); }
-                    else if (number == 2) { Boxes.Add(new Box(game, new Vector2(size, size), new Vector2((x * size), (y * size)), Color.Black)); }
+                    else if (number == 2) { Boxes.Add(new Spike(game, new Vector2(25,25), new Vector2((x * size), (y * size)), Color.Red)); }
                     else if (number == 3) { Enemies.Add(new Walker(game, new Vector2((x * size), (y * size)))); }
                     else if (number == 4) { Items.Add(new Item(game, new Vector2((x * size), (y * size)), new Vector2(26, 25))); }
                         
