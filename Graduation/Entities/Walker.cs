@@ -12,6 +12,8 @@ namespace Graduation.Entities
 {
     class Walker : Enemy
     {
+        private AnimationSprite _attackItem;
+        private double _attackTimer = 0;
         public Walker(Game game, Vector2 position) : base(game, position, 180, 70, 10, 3, 40) {
         }
 
@@ -20,11 +22,15 @@ namespace Graduation.Entities
             _collisionDamageCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             _attackCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _attackTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
             AnimationSprite.Update(gameTime);
             FallDown(dt, map);
             DealCollisionDamage(player, map);
             HitPlayer(player);
+
+            _attackItem.Update(gameTime);
+            if(_attackTimer > 1) _attackItem.SetActive("Right");
 
             if (Util.InRangeX(this, player, 200) && player.Health > 0)
             {
@@ -54,8 +60,16 @@ namespace Graduation.Entities
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
             }, "StandRight", Color.Red);
+
+            _attackItem = new AnimationSprite(new Dictionary<string, Animation>()
+            {
+              { "WalkRight", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 3) },
+              { "Right", new Animation(game.Content.Load<Texture2D>("Health/healthbar"), 1) },
+            }, "WalkRight", Color.White * 0.5f);
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
+
+            // animationsprite erstellen
         }
 
         public void HitPlayer(Player player)
@@ -64,12 +78,19 @@ namespace Graduation.Entities
             {
                 player.Health -= Damage;
                 _attackCooldown = 0;
+                _attackItem.SetActive("WalkRight");
+                _attackTimer = 0;
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            Debug.WriteLine(Position + " ||" + Dimensions);
             spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
+            if(_attackItem != null)
+            {
+                _attackItem.Draw(spriteBatch, Position);
+            }
 
             AnimationSprite.Draw(spriteBatch, Position);
         }

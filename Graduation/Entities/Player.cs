@@ -92,14 +92,14 @@ namespace Graduation.Entities
                 moveY(map);
                 _animationSprite.Update(gameTime);
 
-                foreach (Item item in gs.Items)
+                foreach (Item item in map.Items)
                 {
                     if (Util.CollectedItem(this, item))
                     {
                         _effectTimer = 0;
                         _currentEffect = (int)Util.RandomDouble(1, _effects.Count - 1);
                         _effectActivated = false;
-                        gs.Items.Remove(item);
+                        map.Items.Remove(item);
                         break;
                     }
                 }
