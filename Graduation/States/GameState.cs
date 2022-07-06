@@ -25,7 +25,7 @@ namespace Graduation.States
 
             _camera = new Camera();
             _player = new Player(game, new Vector2(1, 400));
-            _bossLevelOne = new BossLevelOne(game, new Vector2(3000, -400));
+            _bossLevelOne = new BossLevelOne(game, new Vector2(100, 400));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
 
@@ -59,6 +59,9 @@ namespace Graduation.States
 
             //Add walkers quadrant two
             _enemies.Add(new Walker(game, new Vector2(2500, -100)));
+
+            //Add boss
+            _enemies.Add(_bossLevelOne);
 
             //Add item box quadrant one
             Items.Add(new Item(game, new Vector2(300, 412), new Vector2(25, 26)));
@@ -161,8 +164,6 @@ namespace Graduation.States
                 enemy.Draw(_spriteBatch, gameTime);
             }*/
 
-            _bossLevelOne.Draw(_spriteBatch, gameTime);
-
             _spriteBatch.End();
         }
 
@@ -181,7 +182,6 @@ namespace Graduation.States
             _map.Update(gameTime, _player);
 			_player.Update(gameTime, _map, this);
             _camera.Follow(_player);
-            _bossLevelOne.Update(gameTime, _map);
         }
     }
 }

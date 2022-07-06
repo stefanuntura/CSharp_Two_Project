@@ -34,13 +34,33 @@ namespace Graduation.Entities
             LoadContent(game);
         }
 
+        public abstract void Update(GameTime gameTime, Player player, Map map);
+
+        public virtual void LoadContent(Game game)
+        {
+            // Texture for healthbar
+
+            /*Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Texture.SetData(new[] { Color.White });*/
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            // Draw Healthbar
+            AnimationSprite.Draw(spriteBatch, Position);
+        }
+
+        public void changeDimensions()
+        {
+            Animation currAnim = AnimationSprite.CurrentAnimation;
+            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
+        }
+
         public void moveLeft(Map map, float distance)
         {
             AnimationSprite.SetActive("WalkLeft");
             _direction = "left";
             changeDimensions();
-
-            
 
             if (Position.X > 0)
             {
@@ -228,12 +248,6 @@ namespace Graduation.Entities
             }
         }
 
-        public void changeDimensions()
-        {
-            Animation currAnim = AnimationSprite.CurrentAnimation;
-            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
-        }
-
         public void DealCollisionDamage(Player player, Map map)
         {
             if(Util.areOverlapping(this, player) && _collisionDamageCooldown >= 2000)
@@ -253,21 +267,6 @@ namespace Graduation.Entities
                 }
                 else {player.moveRight(map);}*/
             }
-        }
-
-        public abstract void Update(GameTime gameTime, Player player, Map map);
-
-        public virtual void LoadContent(Game game)
-        {
-            // Texture for healthbar
-
-            /*Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Texture.SetData(new[] { Color.White });*/
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            AnimationSprite.Draw(spriteBatch, Position);
         }
     }
 }

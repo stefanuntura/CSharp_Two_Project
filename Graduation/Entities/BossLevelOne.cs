@@ -11,7 +11,7 @@ using Graduation.TestMap;
 
 namespace Graduation.Entities
 {
-    public class BossLevelOne : Boss
+    public class BossLevelOne : Enemy
     {
         public AnimationSprite _animationSprite;
         public EntityState State { get; private set; }
@@ -22,38 +22,33 @@ namespace Graduation.Entities
         public double Damage { get; set; }
         public int DrawOder { get; set; }
 
-        float Time = 0;
+        float dt;
+        float Time;
         BossLevelOneController controller;
         String _direction = "right";
 
-        public BossLevelOne(Game game, Vector2 position) : base(game, position)
+        public BossLevelOne(Game game, Vector2 position) : base(game, position, 100, 100, 30, 30, 40)
         {
+            _collisionDamage = 30;
+            Speed = 300;
+            Position = position;
             LoadContent(game);
-            Speed = 1;
             controller = new BossLevelOneController(this);
         }
 
-        public void Update(GameTime gameTime, Map map)
+        public override void Update(GameTime gameTime, Player player, Map map)
         {
+            _collisionDamageCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
             Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             moveY(map);
-            controller.handleAttackPatterns(Gravity, Time, map);
+            controller.handleAttackPatterns(Gravity, Time, player, map);
+            DealCollisionDamage(player, map);
             _animationSprite.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            _animationSprite.Draw(spriteBatch, Position);
-        }
-
-        public void changePlayerDimensions()
-        {
-            Animation currAnim = _animationSprite.CurrentAnimation;
-            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
-        }
-
-        public void LoadContent(Game game)
+        public override void LoadContent(Game game)
         {
             _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
@@ -67,72 +62,23 @@ namespace Graduation.Entities
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
               {"MeleeAttack", new Animation(game.Content.Load<Texture2D>("Bosses/BossLeveLoneMeleeAttack"), 1) }
             }, "StandRight", Color.White);
+            Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Texture.SetData(new[] { Color.White });
 
             changePlayerDimensions();
         }
 
-        public void dashRight(Map map)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            _animationSprite.SetActive("DashRight");
-            _direction = "right";
-            changePlayerDimensions();
-            if (Position.X < 3500)
-            {
-                bool collision = false;
-                Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X + (float)Speed * 5 * Time, Position.Y);
+            spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
 
-                foreach (Box box in map.Boxes)
-                {
-                    if (collided(box, newPos))
-                    {
-                        collision = true;
-                        collidedBox = box;
-                        break;
-                    }
-                }
-
-                if (!collision)
-                {
-                    Position = newPos;
-                }
-                else
-                {
-                    Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
-                }
-            }
+            _animationSprite.Draw(spriteBatch, Position);
         }
 
-        public void dashLeft(Map map)
+        public void changePlayerDimensions()
         {
-            _animationSprite.SetActive("DashLeft");
-            _direction = "left";
-            changePlayerDimensions();
-            if (Position.X > 3000)
-            {
-                bool collision = false;
-                Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X - (float)Speed * 5 * Time, Position.Y);
-
-                foreach (Box box in map.Boxes)
-                {
-                    if (collided(box, newPos))
-                    {
-                        collision = true;
-                        collidedBox = box;
-                        break;
-                    }
-                }
-
-                if (!collision)
-                {
-                    Position = newPos;
-                }
-                else
-                {
-                    Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
-                }
-            }
+            Animation currAnim = _animationSprite.CurrentAnimation;
+            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
         }
 
         public void moveY(Map map)
@@ -180,11 +126,99 @@ namespace Graduation.Entities
             }
         }
 
+        public void dashRight(Map map)
+        {
+            _animationSprite.SetActive("DashRight");
+            _direction = "right";
+            changePlayerDimensions();
+            if (Position.X < 3500)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(Position.X + (float)Speed * dt, Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    Position = newPos;
+                }
+                else
+                {
+                    Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
+                }
+            }
+        }
+
+        public void dashLeft(Map map)
+        {
+            _animationSprite.SetActive("DashLeft");
+            _direction = "left";
+            changePlayerDimensions();
+            if (Position.X > 0)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(Position.X - (float)Speed * dt, Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    Position = newPos;
+                }
+                else
+                {
+                    Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
+                }
+            }
+        }
+
+        public new void ChasePlayer(float dt, Player player, Map map)
+        {
+            this.dt = dt;
+            Speed = 110;
+            if (!Util.InRangeX(player, this, 3))
+            {
+                if (player.Position.X > Position.X)
+                {
+                    dashRight(map);
+                }
+                else
+                {
+                    dashLeft(map);
+                }
+            }
+        }
+
+        public void chase(Player player, Map map)
+        {
+            if (Util.InRangeX(this, player, 200) && player.Health > 0)
+            {
+                ChasePlayer(dt, player, map);
+            }
+        }
+
         public void idle(Map map)
         {
             _animationSprite.SetActive("StandLeft");
             _direction = "left";
-            Speed = 0;
             changePlayerDimensions();
         }
     }

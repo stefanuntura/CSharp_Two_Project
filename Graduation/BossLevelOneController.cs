@@ -13,31 +13,44 @@ namespace Graduation
             _bossLevelOne = bossLevelOne;
         }
 
-        public void handleAttackPatterns(double gravity, float timer, Map map)
+        public void attackPatterns(float timer, Player player, Map map)
         {
-            bool attackPatternOne = false;
-            bool attackPatternTwo = false;
-            bool attackPatternThree = false;
-
-            if(gravity == 0)
+            if ((int)timer < 1)
             {
-                if ((int)timer % 2 == 0)
-                {
-                    _bossLevelOne.dashRight(map);
-                    attackPatternOne = true;
-                }
-                else
-                {
-                    _bossLevelOne.dashLeft(map);
-                    attackPatternOne = true;
-                }
+                _bossLevelOne.dashLeft(map);
             }
 
+            if ((int)timer > 1 && (int)timer < 3)
+            {
+                _bossLevelOne.dashRight(map);
+            }
 
-            //if (attackPatternOne)
-            //{
-            //    _bossLevelOne.idle(map);
-            //}
+            if((int) timer > 3 && (int)timer < 4)
+            {
+                _bossLevelOne.idle(map);
+            }
+
+            if ((int)timer > 4 && (int)timer < 20)
+            {
+                _bossLevelOne.chase(player, map);
+            }
+
+            if ((int)timer > 20 && (int)timer < 22)
+            {
+                _bossLevelOne.dashLeft(map);
+            }
+
+            if ((int)timer > 22 && (int)timer < 25)
+            {
+                _bossLevelOne.dashRight(map);
+            }
         }
+
+        public void handleAttackPatterns(double gravity, float timer, Player player, Map map)
+        {
+
+                attackPatterns(timer, player, map);
+        }
+
     }
 }

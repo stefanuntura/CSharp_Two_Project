@@ -41,7 +41,7 @@ namespace Graduation.Entities
         public Player(Game game, Vector2 position) : base(game, position)
         {
             LoadContent(game);
-            Speed = 150;
+            Speed = 100;
             VerticalSpeed = 205;
             controller = new InputController(this);
             
