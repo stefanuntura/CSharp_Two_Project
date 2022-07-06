@@ -339,7 +339,7 @@ namespace Graduation.Entities
         {
             if (box is Spike)
             {
-                Health -= 5;
+                Health -= 50;
             }
         }
     }
