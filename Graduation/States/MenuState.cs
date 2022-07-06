@@ -22,41 +22,32 @@ namespace Graduation.States
 
             var newGameTitlePic = new Img(gameTitleTexture)
             {
-                Position = new Vector2(175, 100)
+                Position = new Vector2(200, 75)
             };
 
             var newGameBtn = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(250, 250),
+                Position = new Vector2(275, 250),
                 Text = "Start Game",
             };
 
-            newGameBtn.Click += newGameBtn_Click;
-
             var quitGameBtn = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(250, 350),
+                Position = new Vector2(275, 350),
                 Text = "Quit Game",
             };
-
+            
+            //button events
+            newGameBtn.Click += newGameBtn_Click;
             quitGameBtn.Click += quitGameBtn_Click;
 
+            //Make collection of all components
             _components = new List<Component>()
             {
                 newGameTitlePic,
                 newGameBtn,
                 quitGameBtn,
             };
-        }
-
-        private void newGameBtn_Click(Object sender, EventArgs e)
-        {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
-        }
-
-        private void quitGameBtn_Click(Object sender, EventArgs e)
-        {
-            _game.Exit();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
@@ -73,6 +64,16 @@ namespace Graduation.States
         {
             foreach (var component in _components)
                 component.Update(gameTime);
+        }
+
+        private void newGameBtn_Click(Object sender, EventArgs e)
+        {
+            _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
+        }
+
+        private void quitGameBtn_Click(Object sender, EventArgs e)
+        {
+            _game.Exit();
         }
     }
 }

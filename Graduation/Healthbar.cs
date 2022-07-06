@@ -24,7 +24,7 @@ namespace Graduation
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, double health, Vector2 pos)
         {
             Vector2 newPos = new Vector2(pos.X - 360, pos.Y - 220);
-            spriteBatch.DrawString(font, health >= 0 ? health.ToString() : "0", new Vector2(newPos.X - 23, newPos.Y + 8), Color.Brown);
+            spriteBatch.DrawString(font, health >= 0 ? health.ToString() : "0", new Vector2(newPos.X - 28, newPos.Y + 8), Color.Brown);
             spriteBatch.Draw(_healthbar, newPos , Color.White);
             Vector2 barPos = new Vector2(newPos.X + 15, newPos.Y + 6);
             for(int i = 0; i <= health; i++)

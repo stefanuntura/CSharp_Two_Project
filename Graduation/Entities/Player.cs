@@ -31,25 +31,29 @@ namespace Graduation.Entities
         private double _effectTimer;
         private double _defaultSpeed;
 
-
+        //weapons & hotbar
         Laptop weapon_1;
-        PC weapon_2;
-        MacBook weapon_3;
+        MacBook weapon_2;
+        PC weapon_3;
         public Weapon weapon;
+        private Hotbar _hotbar;
 
         public Player(Game game, Vector2 position) : base(game, position)
         {
             LoadContent(game);
-            Speed = 180;
+            Speed = 150;
+            VerticalSpeed = 205;
             controller = new InputController(this);
             
-
             weapon_1 = new Laptop(game, new Vector2(14, 10));
-            weapon_2 = new PC(game, new Vector2(14, 11));
-            weapon_3 = new MacBook(game, new Vector2(14, 10));
-            weapon = weapon_1;
+            weapon_2 = new MacBook(game, new Vector2(14, 10));
+            weapon_3 = new PC(game, new Vector2(14, 11));
+            weapon = weapon_1; //set default
+            _hotbar = new Hotbar(game);
+            
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
+            
             handler = new PositionHandler();
             _effectTimer = 0;
             _effects = new List<PlayerEffect>();
@@ -109,7 +113,7 @@ namespace Graduation.Entities
             _animationSprite.SetActive("WalkRight");
             _direction = "right";
             changePlayerDimensions();
-            if (Position.X < 1265)
+            if (Position.X < 3500)
             {
                 bool collision = false;
                 Box collidedBox = null;
@@ -133,6 +137,8 @@ namespace Graduation.Entities
                 {
                     Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
@@ -165,13 +171,15 @@ namespace Graduation.Entities
                 {
                     Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
         public void moveY(Map map)
         {
             float newY;
-            Gravity = Gravity < Speed * 1.5 ? Gravity + 10 : Gravity;
+            Gravity = Gravity < VerticalSpeed * 1.5 ? Gravity + 10 : Gravity;
             changePlayerDimensions();
 
 
@@ -210,6 +218,8 @@ namespace Graduation.Entities
                     Position = new Vector2(Position.X, collidedBox.Position.Y - Dimensions.Y - 1);
                     _canJump = true;
                 }
+
+                blockDmg(collidedBox);
             }
         }
 
@@ -217,18 +227,18 @@ namespace Graduation.Entities
         {
             if (_canJump)
             {
-                Gravity = -Speed * 1.7f;
+                Gravity = -VerticalSpeed * 1.7f;
                 _canJump = false;
             }
         }
 
         public void throwWeapon()
         {
+            //Called by the InputController, only starts the attack method once cooldown of weapon is down
             if (weapon.attackTimer >= weapon.Cooldown)
             {
                 attack = true;
             }
-            
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -236,7 +246,7 @@ namespace Graduation.Entities
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
-
+            _hotbar.Draw(gameTime, spriteBatch, Position);
             weapon.attack(gameTime, spriteBatch, this);
 
             if (0 < _effectTimer && _effectTimer <= 2)
@@ -244,6 +254,8 @@ namespace Graduation.Entities
                 float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
                 spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
+  
+
         }
 
         public void LoadContent(Game game)
@@ -273,16 +285,20 @@ namespace Graduation.Entities
 
         public void switchWeapon(int i)
         {
+            //Changes active weapon
             switch (i)
             {
                 case 1:
                     weapon = weapon_1;
+                    _hotbar.SelectedWeapon = 1;
                     break;
                 case 2:
                     weapon = weapon_2;
+                    _hotbar.SelectedWeapon = 2;
                     break;
                 case 3:
                     weapon = weapon_3;
+                    _hotbar.SelectedWeapon = 3;
                     break;
             }
         }
@@ -316,6 +332,14 @@ namespace Graduation.Entities
             else if(_effects[_currentEffect].TimeSpan <= _effectTimer && _effectActivated)
             {
                 Speed = _defaultSpeed;
+            }
+        }
+
+        public void blockDmg(Box box)
+        {
+            if (box is Spike)
+            {
+                Health -= 5;
             }
         }
     }
