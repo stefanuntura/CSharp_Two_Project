@@ -67,7 +67,7 @@ namespace Graduation.TestMap
             }
         }
 
-        public void Generate(int[,] map, int size) 
+        public void Generate(Game game, int[,] map, int size) 
         {
             for (int x = 0; x < map.GetLength(1); x++) 
             {
@@ -77,12 +77,13 @@ namespace Graduation.TestMap
 
                     //if number number = 0, blank space
                     if (number > 0)
-                        collisionTiles.Add(new CollisionTiles(number, new Rectangle(x * size, y * size, size, size)));
+                        Boxes.Add(new Box(game, new Vector2(size,size), new Vector2((x * size), (y * size)), Color.Black));
 
                     width = (x + 1) * size;
                     height = (y + 1) * size;
                 }
             }
         }
+        
     }
 }
