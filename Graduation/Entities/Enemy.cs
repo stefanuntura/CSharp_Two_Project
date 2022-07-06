@@ -267,9 +267,7 @@ namespace Graduation.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            // Draw Healthbar
             AnimationSprite.Draw(spriteBatch, Position);
-
         }
     }
 }

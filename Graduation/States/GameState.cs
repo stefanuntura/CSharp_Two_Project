@@ -28,17 +28,20 @@ namespace Graduation.States
             _bossLevelOne = new BossLevelOne(game, new Vector2(3000, -400));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
-            
+
             // comment this in to generate map, commented out to not screw with test map
-           /* _map.Generate (game,new int[,] {
+            _map.Generate(game, new int[,] {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,},
                 {0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,},
                 {0,0,0,1,1,0,0,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,},
-                {1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,},
-            }, 32);*/
+                {1,1,1,1,1,0,0,1,1,1,1,1,1,0,3,4,3,3,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                {0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+            }, 32);
 
 
             _map.addBox(new TestMap.Box(game, new Vector2(800, 100), new Vector2(0, 440), Color.DarkSlateGray));
@@ -152,15 +155,10 @@ namespace Graduation.States
 
             _player.Draw(_spriteBatch, gameTime);
 
-            foreach (Enemy enemy in _enemies)
+           /* foreach (Enemy enemy in _enemies)
             {
                 enemy.Draw(_spriteBatch, gameTime);
-            }
-
-            foreach( Item item in Items)
-            {
-                item.Draw(_spriteBatch);
-            }
+            }*/
 
             _bossLevelOne.Draw(_spriteBatch, gameTime);
 
@@ -177,22 +175,9 @@ namespace Graduation.States
             }
             _player.Update(gameTime, _map, this);
             _camera.Follow(_player);
-            _player.weapon.Update(gameTime, _player, _enemies, _map);
+            _player.weapon.Update(gameTime, _player, _map.Enemies, _map);
 
-            foreach (Enemy enemy  in _enemies)
-            {
-                enemy.Update(gameTime, _player, _map);                
-            }
-            
-            foreach (Enemy enemy in _enemies)
-            {
-                if (enemy.Health <= 0)
-                {
-                    _enemies.Remove(enemy);
-                    break;
-                }
-            }
-			
+            _map.Update(gameTime, _player);
 			_player.Update(gameTime, _map, this);
             _camera.Follow(_player);
             _bossLevelOne.Update(gameTime, _map);
