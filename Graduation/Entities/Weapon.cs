@@ -20,7 +20,7 @@ namespace Graduation
 
         public int Speed;
         public double Damage;
-        public Vector2 NeutralPos;
+        public Vector2 NeutralPos; //weapon objects needs a neutral position, so the weapon won't interact after it stopped being drawn
 
         String _attackDirection = "right";
        
@@ -44,6 +44,7 @@ namespace Graduation
 
         public void Update(GameTime gameTime, Player player, List<Enemy> enemies, Map map)
         {
+            //Check for collision with an enemy
             foreach (Enemy enemy in enemies)
             {
                 if (Util.weaponHitEnemy(this, enemy))
@@ -54,6 +55,7 @@ namespace Graduation
                 }
             }
 
+            //Check for collision with any walls
             foreach (Box box in map.Boxes)
             {
                 if (Util.weaponHitWall(this, box))
@@ -79,12 +81,11 @@ namespace Graduation
             }
             else if (player.throwing)
             {
-
                 Vector2 newPos = _attackDirection == "right" ? new Vector2(Position.X + Speed, Position.Y) :
                  new Vector2(Position.X - Speed, Position.Y);
                 Draw(spriteBatch, gameTime, newPos);
 
-                if (attackTimer > 500)
+                if (attackTimer > 500) //stops the weapon from drawing to the screen, even if it doesn't interact/hit anything
                 {
                     player.throwing = false;
                     Position = NeutralPos;

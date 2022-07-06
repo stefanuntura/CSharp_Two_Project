@@ -17,7 +17,7 @@ namespace Graduation
         public Hotbar(Game game) : base(game)
         {
             LoadContent(game);
-            SelectedWeapon = 1;
+            SelectedWeapon = 1; //default
         }
 
 
@@ -25,6 +25,7 @@ namespace Graduation
         {
             spriteBatch.Draw(_hotbar, new Rectangle((int)position.X - 45, (int)position.Y + 175, 160, 57), Color.White);
 
+            //draw highlighted borders around the weapon slot of selected weapon
             if (SelectedWeapon == 1)
             {
                 spriteBatch.Draw(_border, new Rectangle((int)position.X - 18, (int)position.Y + 220, 35, 1), Color.LightGray);
