@@ -13,7 +13,7 @@ namespace Graduation.Entities
         public AnimationSprite AnimationSprite;
         private bool _isWalking;
         private Vector2 _destination;
-        protected String _direction;
+        public String _direction;
         private bool _canJump = false;
         private bool _strollLeft = false;
         float dt;

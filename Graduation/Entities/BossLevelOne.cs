@@ -21,10 +21,16 @@ namespace Graduation.Entities
         float Time;
 
         private bool _canJump = false;
+
+        public Weapon weapon;
+        public Boolean attack = false;
+        public Boolean throwing = false;
+
         BossLevelOneController controller;
 
         public BossLevelOne(Game game, Vector2 position) : base(game, position, 300, 300, 30, 30, 40)
         {
+            weapon = new DatabaseWeapon(game, new Vector2(14, 10));
             LoadContent(game);
             controller = new BossLevelOneController(this);
         }
@@ -73,6 +79,8 @@ namespace Graduation.Entities
             spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
 
             _animationSprite.Draw(spriteBatch, Position);
+
+            weapon.bossRangedAttack(gameTime, spriteBatch, this);
         }
 
         public void changePlayerDimensions()
@@ -133,6 +141,15 @@ namespace Graduation.Entities
             {
                 Gravity = -Speed * 0.15f;
                 _canJump = false;
+            }
+        }
+
+        public void throwWeapon()
+        {
+            //Called by the InputController, only starts the attack method once cooldown of weapon is down
+            if (weapon.attackTimer >= weapon.Cooldown)
+            {
+                attack = true;
             }
         }
 
@@ -236,6 +253,7 @@ namespace Graduation.Entities
                 {
                     this.Position = new Vector2(player.Position.X - 100, player.Position.Y);
                     Speed = 200;
+                    this.throwWeapon();
                 }
             }
         }

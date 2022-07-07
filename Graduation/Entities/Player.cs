@@ -247,7 +247,7 @@ namespace Graduation.Entities
             // Health Number Log for testing 
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
             _hotbar.Draw(gameTime, spriteBatch, Position);
-            weapon.attack(gameTime, spriteBatch, this);
+            weapon.playerAttack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
 
@@ -256,8 +256,6 @@ namespace Graduation.Entities
                 float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
                 spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
-  
-
         }
 
         public void LoadContent(Game game)
