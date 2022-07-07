@@ -176,9 +176,9 @@ namespace Graduation.States
                 if(_counter > 1000) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
 
-            if(_enemies.Count == 0)
+            if (_enemies.Count == 0)
             {
-                //_game.ChangeState.
+                _game.ChangeState(new Victory(_game, _graphicsDevice, _contentManager));
             }
 
             _player.Update(gameTime, _map, this);
