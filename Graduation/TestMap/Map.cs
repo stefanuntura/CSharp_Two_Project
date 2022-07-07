@@ -113,6 +113,7 @@ namespace Graduation.TestMap
                     else if (number == 4) { Items.Add(new Item(game, new Vector2((x * size), (y * size)), new Vector2(26, 25))); }
                     else if (number == 5) { Enemies.Add(new BossLevelOne(game, new Vector2((x * size), ((y * size)-20)))); }  
                     else if (number == 6) { Enemies.Add(new Robot1(game, new Vector2((x * size), (y * size)))); }
+                    else if (number == 7) { Enemies.Add(new Robot2(game, new Vector2((x * size), (y * size)))); }
                     width = (x + 1) * size;
                     height = (y + 1) * size;
                 }
