@@ -242,20 +242,19 @@ namespace Graduation.Entities
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime,  State gs, int i)
         {
-            String remainingEnemies = "Enemies remaining: " + i;
-
             // Disable healthbar and fix position of hotbar in lobby 
             if (gs.GetType() != typeof(Lobby))
             {
                 _healthbar.Draw(gameTime, spriteBatch, Health, Position);
                 _hotbar.Draw(gameTime, spriteBatch, Position);
+                String remainingEnemies = "Enemies remaining: " + i;
                 spriteBatch.DrawString(_font, remainingEnemies, new Vector2(Position.X + 200, Position.Y - 225), Color.Crimson);
             }
             else
                 _hotbar.Draw(gameTime, spriteBatch, new Vector2(350, 230));
 
             _animationSprite.Draw(spriteBatch, Position);
-            
+
             weapon.playerAttack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
