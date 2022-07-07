@@ -10,15 +10,15 @@ namespace Graduation.Entities
     {
         public DatabaseWeapon(Game game, Vector2 dimension) : base(game, dimension)
         {
-            attackTimer = 300;
-            Cooldown = 300;
+            attackTimer = 500;
+            Cooldown = 500;
             Speed = 7;
             Damage = 20;
         }
 
         public override void LoadContent(Game game)
         {
-            device = game.Content.Load<Texture2D>("Weapon/Laptop");
+            device = game.Content.Load<Texture2D>("Weapon/ResitWeapon");
         }
     }
 }

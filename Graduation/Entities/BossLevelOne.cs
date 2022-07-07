@@ -66,7 +66,9 @@ namespace Graduation.Entities
               { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
               { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
               { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
-              {"MeleeAttack", new Animation(game.Content.Load<Texture2D>("Bosses/BossLeveLoneMeleeAttack"), 1) }
+              {"MeleeAttack", new Animation(game.Content.Load<Texture2D>("Bosses/BossLeveLoneMeleeAttack"), 1) },
+              { "ThrowAttackRight", new Animation(game.Content.Load<Texture2D>("Bosses/BossThrowAttackRight"), 1) },
+              {"ThrowAttackLeft", new Animation(game.Content.Load<Texture2D>("Bosses/BossThrowAttackLeft"), 1) }
             }, "StandRight", Color.White);
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
@@ -247,13 +249,26 @@ namespace Graduation.Entities
             {
                 ChasePlayer(dt, player, map);
             }
+            if (Util.InRangeX(this, player, 250) && player.Health > 0)
+            {
+
+                if (_direction == "right")
+                {
+                    _animationSprite.SetActive("ThrowAttackRight");
+                }
+                else
+                {
+                    _animationSprite.SetActive("ThrowAttackLeft");
+                }
+
+                this.throwWeapon();
+            }
             if (!Util.InRangeX(this, player, 350) && player.Health > 0)
             {
                 if(player.Position.X - 100 > 0)
                 {
                     this.Position = new Vector2(player.Position.X - 100, player.Position.Y);
                     Speed = 200;
-                    this.throwWeapon();
                 }
             }
         }
