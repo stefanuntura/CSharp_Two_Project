@@ -20,7 +20,6 @@ namespace Graduation.Entities
         float dt;
         public Boolean attack = false;
         public Boolean throwing = false;
-        private SpriteFont font;
         private Healthbar _healthbar;
 
         //Effect 
@@ -241,12 +240,14 @@ namespace Graduation.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime, int i)
         {
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
             _hotbar.Draw(gameTime, spriteBatch, Position);
+            String remainingEnemies = "Enemies remaining: " + i;
+            spriteBatch.DrawString(_font, remainingEnemies, new Vector2(Position.X + 200, Position.Y - 225), Color.DarkSlateGray);
             weapon.attack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
@@ -256,8 +257,6 @@ namespace Graduation.Entities
                 float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
                 spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
-  
-
         }
 
         public void LoadContent(Game game)
