@@ -83,9 +83,6 @@ namespace Graduation.TestMap
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Debug.WriteLine(Enemies.Count);
-            if (Enemies.Count > 0)
-                Debug.WriteLine(Enemies[0].Position);
             foreach (Box box in Boxes)
             {
                 box.Draw(spriteBatch, gameTime);
@@ -114,7 +111,7 @@ namespace Graduation.TestMap
                     else if (number == 2) { Boxes.Add(new Spike(game, new Vector2(25,25), new Vector2((x * size), (y * size)), Color.Red)); }
                     else if (number == 3) { Enemies.Add(new Walker(game, new Vector2((x * size), (y * size)))); }
                     else if (number == 4) { Items.Add(new Item(game, new Vector2((x * size), (y * size)), new Vector2(26, 25))); }
-                        
+                    else if (number == 5) { Enemies.Add(new BossLevelOne(game, new Vector2(180, -52))); }    
                     
                     width = (x + 1) * size;
                     height = (y + 1) * size;

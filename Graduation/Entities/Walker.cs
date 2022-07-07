@@ -68,8 +68,6 @@ namespace Graduation.Entities
             }, "poolRight", Color.White * 0.5f);
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
-
-            // animationsprite erstellen
         }
 
         public void HitPlayer(Player player)

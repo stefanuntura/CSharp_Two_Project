@@ -15,17 +15,17 @@ namespace Graduation
 
         public void attackPatterns(float timer, Player player, Map map)
         {
-            if ((int)timer < 1)
+            if ((int)timer < 0.5)
             {
                 _bossLevelOne.dashLeft(map);
             }
 
-            if ((int)timer > 1 && (int)timer < 3)
+            if ((int)timer > 0.5 && (int)timer < 2)
             {
                 _bossLevelOne.dashRight(map);
             }
 
-            if((int) timer > 3 && (int)timer < 4)
+            if((int) timer > 2 && (int)timer < 2.5)
             {
                 _bossLevelOne.idle(map);
             }
@@ -46,11 +46,16 @@ namespace Graduation
             }
         }
 
-        public void handleAttackPatterns(double gravity, float timer, Player player, Map map)
+        public void handleAttackPatterns(float timer, Player player, Map map)
         {
-
+            if (_bossLevelOne.Position.Y != player.Position.Y)
+            {
+                return;
+            }
+            else
+            {
                 attackPatterns(timer, player, map);
+            }
         }
-
     }
 }

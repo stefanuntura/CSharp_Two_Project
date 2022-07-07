@@ -15,23 +15,16 @@ namespace Graduation.Entities
     {
         public AnimationSprite _animationSprite;
         public EntityState State { get; private set; }
-        public Vector2 Position { get; set; }
-        public double Health { get; set; }
-        public double Speed { get; set; }
-        public double Gravity { get; set; }
-        public double Damage { get; set; }
         public int DrawOder { get; set; }
 
         float dt;
         float Time;
-        BossLevelOneController controller;
-        String _direction = "right";
 
-        public BossLevelOne(Game game, Vector2 position) : base(game, position, 100, 100, 30, 30, 40)
+        private bool _canJump = false;
+        BossLevelOneController controller;
+
+        public BossLevelOne(Game game, Vector2 position) : base(game, position, 300, 300, 30, 30, 40)
         {
-            _collisionDamage = 30;
-            Speed = 300;
-            Position = position;
             LoadContent(game);
             controller = new BossLevelOneController(this);
         }
@@ -39,12 +32,19 @@ namespace Graduation.Entities
         public override void Update(GameTime gameTime, Player player, Map map)
         {
             _collisionDamageCooldown += gameTime.ElapsedGameTime.TotalMilliseconds;
-            Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            moveY(map);
-            controller.handleAttackPatterns(Gravity, Time, player, map);
+            if (this.Position.Y != player.Position.Y)
+            {
+                Time = 0;
+            }
+            else
+            {
+                Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
             DealCollisionDamage(player, map);
+            controller.handleAttackPatterns(Time, player, map);
             _animationSprite.Update(gameTime);
         }
 
@@ -54,7 +54,7 @@ namespace Graduation.Entities
             {
               { "DashRight", new Animation(game.Content.Load<Texture2D>("Bosses/BossLevelOneDashRight"), 1) },
               { "DashLeft", new Animation(game.Content.Load<Texture2D>("Bosses/BossLevelOneDashLeft"), 1) },
-              { "StandRight", new Animation(game.Content.Load<Texture2D>("Player/player"), 1) },
+              { "StandRight", new Animation(game.Content.Load<Texture2D>("Bosses/BossLevelOneIdleRight"), 1) },
               { "StandLeft", new Animation(game.Content.Load<Texture2D>("Bosses/BossLevelOneIdle"), 1) },
               { "UpRight", new Animation(game.Content.Load<Texture2D>("Player/UpRight"), 1) },
               { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
@@ -122,7 +122,17 @@ namespace Graduation.Entities
                 else
                 {
                     Position = new Vector2(Position.X, collidedBox.Position.Y - Dimensions.Y - 1);
+                    _canJump = true;
                 }
+            }
+        }
+
+        public void jump()
+        {
+            if (_canJump)
+            {
+                Gravity = -Speed * 0.15f;
+                _canJump = false;
             }
         }
 
@@ -192,17 +202,24 @@ namespace Graduation.Entities
 
         public new void ChasePlayer(float dt, Player player, Map map)
         {
-            this.dt = dt;
-            Speed = 110;
+            Speed = 150;
             if (!Util.InRangeX(player, this, 3))
             {
                 if (player.Position.X > Position.X)
                 {
                     dashRight(map);
+                    //if(this.Position.Y > player.Position.Y || this.Position.Y == player.Position.Y)
+                    //{
+                    //    jump();
+                    //}
                 }
                 else
                 {
                     dashLeft(map);
+                    //if (this.Position.Y > player.Position.Y || this.Position.Y == player.Position.Y)
+                    //{
+                    //    jump();
+                    //}
                 }
             }
         }
@@ -212,6 +229,14 @@ namespace Graduation.Entities
             if (Util.InRangeX(this, player, 200) && player.Health > 0)
             {
                 ChasePlayer(dt, player, map);
+            }
+            if (!Util.InRangeX(this, player, 350) && player.Health > 0)
+            {
+                if(player.Position.X - 100 > 0)
+                {
+                    this.Position = new Vector2(player.Position.X - 100, player.Position.Y);
+                    Speed = 200;
+                }
             }
         }
 
