@@ -53,6 +53,18 @@ namespace Graduation
             return false;
         }
 
+        public static bool weaponHitPlayer(Weapon e1, Player player)
+        {
+            if (e1.Position.Y <= player.Position.Y + player.Dimensions.Y && e1.Position.Y + e1.Dimension.Y >= player.Position.Y)
+            {
+                if (e1.Position.X <= player.Position.X + player.Dimensions.X && e1.Position.X + e1.Dimension.X >= player.Position.X)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static bool weaponHitWall(Weapon e1, Box e2)
         {
             if (e1.Position.Y <= e2.Position.Y + e2.Dimensions.Y && e1.Position.Y + e1.Dimension.Y >= e2.Position.Y)

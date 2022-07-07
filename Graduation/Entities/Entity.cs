@@ -16,6 +16,7 @@ namespace Graduation.Entities
         public double VerticalSpeed { get; set; }
         public double Gravity { get; set; }
         public double Damage { get; set; }
+        public Weapon Weapon { get; set; }
 
         public Entity(Game game, Vector2 position) : base(game)
         {

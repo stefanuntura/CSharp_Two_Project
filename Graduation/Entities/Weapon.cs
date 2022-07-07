@@ -42,7 +42,7 @@ namespace Graduation
             spriteBatch.Draw(device, new Rectangle((int)Position.X, (int)Position.Y, (int)Dimension.X, (int)Dimension.Y), Color.White);  
         }
 
-        public void Update(GameTime gameTime, Player player, List<Enemy> enemies, Map map)
+        public virtual void Update(GameTime gameTime, Player player, List<Enemy> enemies, Map map)
         {
             //Check for collision with an enemy
             foreach (Enemy enemy in enemies)
@@ -66,7 +66,9 @@ namespace Graduation
             }
         }
 
-        public void attack(GameTime gameTime, SpriteBatch spriteBatch, Player player)
+        // make the attack methods virtual aswell
+
+        public void playerAttack(GameTime gameTime, SpriteBatch spriteBatch, Player player)
         {
             if (player.attack)
             {
@@ -94,5 +96,62 @@ namespace Graduation
 
             attackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
+
+        public void bossRangedAttack(GameTime gameTime, SpriteBatch spriteBatch, BossLevelOne bossLevelOne)
+        {
+            if (bossLevelOne.attack)
+            {
+                _attackDirection = bossLevelOne._direction;
+                attackTimer = 0;
+                bossLevelOne.throwing = true;
+                bossLevelOne.attack = false;
+
+                Position.X = bossLevelOne.Position.X;
+                Position.Y = bossLevelOne.Position.Y + (bossLevelOne.Dimensions.Y / 3);
+
+            }
+            else if (bossLevelOne.throwing)
+            {
+                Vector2 newPos = _attackDirection == "right" ? new Vector2(Position.X + Speed, Position.Y) :
+                new Vector2(Position.X - Speed, Position.Y);
+                Draw(spriteBatch, gameTime, newPos);
+
+                if (attackTimer > 500) //stops the weapon from drawing to the screen, even if it doesn't interact/hit anything
+                {
+                    bossLevelOne.throwing = false;
+                    Position = NeutralPos;
+                }
+            }
+
+            attackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+        public void RangedAttack(GameTime gameTime, SpriteBatch spriteBatch, Enemy enemy)
+        {
+            if (enemy.attack)
+            {
+                _attackDirection = enemy._direction;
+                attackTimer = 0;
+                enemy.throwing = true;
+                enemy.attack = false;
+
+                Position.X = enemy.Position.X;
+                Position.Y = enemy.Position.Y + (enemy.Dimensions.Y / 2);
+            }
+            else if (enemy.throwing) 
+            {
+                Vector2 newPos = _attackDirection == "right" ? new Vector2(Position.X + Speed, Position.Y) :
+               new Vector2(Position.X - Speed, Position.Y);
+                Draw(spriteBatch, gameTime, newPos);
+
+                if (attackTimer > 500) //stops the weapon from drawing to the screen, even if it doesn't interact/hit anything
+                {
+                    enemy.throwing = false;
+                    Position = NeutralPos;
+                }
+            }
+            attackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+
+
     }
 }

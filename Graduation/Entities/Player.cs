@@ -20,7 +20,6 @@ namespace Graduation.Entities
         float dt;
         public Boolean attack = false;
         public Boolean throwing = false;
-        private SpriteFont font;
         private Healthbar _healthbar;
 
         //Effect 
@@ -241,7 +240,7 @@ namespace Graduation.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime, State gs)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime,  State gs, int i)
         {
             // Disable healthbar and fix position of hotbar in lobby 
             if (gs.GetType() != typeof(Lobby))
@@ -253,8 +252,9 @@ namespace Graduation.Entities
                 _hotbar.Draw(gameTime, spriteBatch, new Vector2(350, 230));
 
             _animationSprite.Draw(spriteBatch, Position);
-            // Health Number Log for testing 
-            weapon.attack(gameTime, spriteBatch, this);
+            String remainingEnemies = "Enemies remaining: " + i;
+            spriteBatch.DrawString(_font, remainingEnemies, new Vector2(Position.X + 200, Position.Y - 225), Color.Crimson);
+            weapon.playerAttack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
 
@@ -263,8 +263,6 @@ namespace Graduation.Entities
                 float xPlacement = Position.X + 15 - (_font.MeasureString(_effects[_currentEffect].Title).X / 2);
                 spriteBatch.DrawString(_font, _effects[_currentEffect].Title, new Vector2(xPlacement, Position.Y - 20), _effects[_currentEffect].GoodEffect ? Color.Green : Color.Red);
             }
-  
-
         }
 
         public void LoadContent(Game game)

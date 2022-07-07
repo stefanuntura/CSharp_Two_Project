@@ -25,11 +25,6 @@ namespace Graduation
                 _bossLevelOne.dashRight(map);
             }
 
-            if((int) timer > 2 && (int)timer < 2.5)
-            {
-                _bossLevelOne.idle(map);
-            }
-
             if ((int)timer > 4 && (int)timer < 20)
             {
                 _bossLevelOne.chase(player, map);
@@ -38,11 +33,6 @@ namespace Graduation
             if ((int)timer > 20 && (int)timer < 22)
             {
                 _bossLevelOne.dashLeft(map);
-            }
-
-            if ((int)timer > 22 && (int)timer < 25)
-            {
-                _bossLevelOne.dashRight(map);
             }
         }
 

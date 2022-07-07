@@ -106,11 +106,12 @@ namespace Graduation.TestMap
 
                     //if number number = 0, blank space
                     if (number == 1) { Boxes.Add(new Box(game, new Vector2(size, size), new Vector2((x * size), (y * size)), Color.Black)); }
-                    else if (number == 2) { Boxes.Add(new Spike(game, new Vector2(25,25), new Vector2((x * size), (y * size)), Color.Red)); }
+                    else if (number == 2) { Boxes.Add(new Spike(game, new Vector2(35,35), new Vector2((x * size), (y * size)), Color.Red)); }
                     else if (number == 3) { Enemies.Add(new Walker(game, new Vector2((x * size), (y * size)))); }
                     else if (number == 4) { Items.Add(new Item(game, new Vector2((x * size), (y * size)), new Vector2(26, 25))); }
-                    else if (number == 5) { Enemies.Add(new BossLevelOne(game, new Vector2(180, -52))); }    
-                    
+                    else if (number == 5) { Enemies.Add(new BossLevelOne(game, new Vector2((x * size), ((y * size)-20)))); }  
+                    else if (number == 6) { Enemies.Add(new Robot1(game, new Vector2((x * size), (y * size)))); }
+                    else if (number == 7) { Enemies.Add(new Robot2(game, new Vector2((x * size), (y * size)))); }
                     width = (x + 1) * size;
                     height = (y + 1) * size;
                 }
