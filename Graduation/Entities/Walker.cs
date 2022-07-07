@@ -33,11 +33,11 @@ namespace Graduation.Entities
             if(_attackTimer < 2)
                 AnimationSprite.SetActive(_direction == "right" ? "AttackRight" : "AttackLeft");
 
-            if (Util.InRangeX(this, player, 200) && player.Health > 0 && _attackTimer > 2)
+            if (Util.InRangeX(this, player, 200) && player.Health > 0 && _attackTimer > 1)
             {
                 ChasePlayer(dt, player, map);
             }
-            else if(_attackTimer > 2)//if(player.Health > 0)
+            else if(_attackTimer > 1)//if(player.Health > 0)
             {
                 Stroll(dt, map);
             }
