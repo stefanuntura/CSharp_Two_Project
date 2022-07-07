@@ -243,14 +243,17 @@ namespace Graduation.Entities
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime, State gs)
         {
-
+            // Disable healthbar and fix position of hotbar in lobby 
             if (gs.GetType() != typeof(Lobby))
             {
                 _healthbar.Draw(gameTime, spriteBatch, Health, Position);
+                _hotbar.Draw(gameTime, spriteBatch, Position);
             }
+            else
+                _hotbar.Draw(gameTime, spriteBatch, new Vector2(350, 230));
+
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
-            _hotbar.Draw(gameTime, spriteBatch, Position);
             weapon.attack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);

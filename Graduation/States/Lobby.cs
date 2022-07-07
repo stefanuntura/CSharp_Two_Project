@@ -29,8 +29,11 @@ namespace Graduation.States
                 for (int j = 0; j < 20; j++)
                 {
                     if(i < 1 || i == 24)
+
                         _map.addBox(new TestMap.Box(game, new Vector2(32, 32), new Vector2(i * 32, j * 32), Color.Black));
                 }
+
+                // black floor blocks
                 _map.addBox(new TestMap.Box(game, new Vector2(32 * 18, 150), new Vector2(0, 330), Color.Black));
                 _map.addBox(new TestMap.Box(game, new Vector2(100, 150), new Vector2(32 * 21, 330), Color.Black));
             }
@@ -56,6 +59,7 @@ namespace Graduation.States
             {
                 if (( i != 0 && i < 18) || ( i > 20 && i < 24))
                 {
+                    // Draw floor sprites
                     _spriteBatch.Draw(_floor, new Vector2(i * 32, 330), Color.White);
                 }
                 for (int j = 0; j < 20; j++)
@@ -80,12 +84,12 @@ namespace Graduation.States
         public override void Update(GameTime gameTime)
         {
 
-            /*if (_player.Position.X > 400)
+            if (_player.Position.Y > 410)
             {
                 _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
-            }*/
+            }
 
-            if(_player.Position.X < 0 || _player.Position.Y < 0)
+            if (_player.Position.X < 0 || _player.Position.Y < 0)
             {
                 _player.Position = new Vector2(50, 250);
             }
