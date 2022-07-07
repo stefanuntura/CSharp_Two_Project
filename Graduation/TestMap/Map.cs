@@ -40,8 +40,6 @@ namespace Graduation.TestMap
                     break;
                 }
             }
-
-            Debug.WriteLine(player.Position);
         }
 
         private List<CollisionTiles> CollisionTiles

@@ -20,6 +20,9 @@ namespace Graduation.States
         private Texture2D _drop;
         private Texture2D _blackBlock;
         private Texture2D _halfFloor;
+        private Texture2D _weaponControls;
+        private Texture2D _generalControls;
+        private bool _control1 = true;
         public Lobby(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             //Initialize map
@@ -59,6 +62,7 @@ namespace Graduation.States
             _spriteBatch.Draw(_reception, new Vector2(120, 287), Color.White);
             _spriteBatch.Draw(_drop, new Vector2(18 * 32, 335), Color.White);
             _spriteBatch.Draw(_halfFloor, new Vector2(18 * 32, 330), Color.White);
+
             _player.Draw(_spriteBatch, gameTime, this);
 
             for (int i = 0; i < 30; i++)
@@ -75,8 +79,7 @@ namespace Graduation.States
                 }
             }
 
-
-            //92/43
+            _spriteBatch.Draw(_player.Position.X > 300 ?_weaponControls : _generalControls, new Vector2(420, 100), Color.Black * 0.5f);
 
             _spriteBatch.End();
         }
@@ -89,12 +92,14 @@ namespace Graduation.States
             _drop = game.Content.Load<Texture2D>("Lobby/dropWider");
             _blackBlock = game.Content.Load<Texture2D>("Lobby/wall");
             _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
+            _weaponControls = game.Content.Load<Texture2D>("Lobby/weapon");
+            _generalControls = game.Content.Load<Texture2D>("Lobby/control");
         }
 
         public override void Update(GameTime gameTime)
         {
 
-            if (_player.Position.Y > 410)
+            if (_player.Position.Y > 430)
             {
                 _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
             }
@@ -103,6 +108,8 @@ namespace Graduation.States
             {
                 _player.Position = new Vector2(50, 250);
             }
+
+            _control1 = _player.Position.X < 250 ? true : false;
 
             _player.Update(gameTime, _map, this);
             _player.weapon.Update(gameTime, _player, _map.Enemies, _map);
