@@ -68,7 +68,7 @@ namespace Graduation.States
 
         private void newGameBtn_Click(Object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
+            _game.ChangeState(new Lobby(_game, _graphicsDevice, _contentManager));
         }
 
         private void quitGameBtn_Click(Object sender, EventArgs e)

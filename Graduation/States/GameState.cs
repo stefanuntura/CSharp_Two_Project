@@ -24,8 +24,8 @@ namespace Graduation.States
             _map = new TestMap.Map();
 
             _camera = new Camera();
-            _player = new Player(game, new Vector2(1, 400));
-            _bossLevelOne = new BossLevelOne(game, new Vector2(100, 400));
+            _player = new Player(game, new Vector2(20, 400));
+            _bossLevelOne = new BossLevelOne(game, new Vector2(150, 450));
             _enemies = new List<Enemy>();
             Items = new List<Item>();
 
@@ -157,7 +157,7 @@ namespace Graduation.States
 
             _map.Draw(_spriteBatch, gameTime);
 
-            _player.Draw(_spriteBatch, gameTime);
+            _player.Draw(_spriteBatch, gameTime, this);
 
            /* foreach (Enemy enemy in _enemies)
             {

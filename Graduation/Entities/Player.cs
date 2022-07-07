@@ -70,7 +70,7 @@ namespace Graduation.Entities
             //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
 
-        public void Update(GameTime gameTime, Map map, GameState gs)
+        public void Update(GameTime gameTime, Map map, State gs)
         {
             if (Health <= 0)
             {
@@ -241,11 +241,15 @@ namespace Graduation.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime, State gs)
         {
+
+            if (gs.GetType() != typeof(Lobby))
+            {
+                _healthbar.Draw(gameTime, spriteBatch, Health, Position);
+            }
             _animationSprite.Draw(spriteBatch, Position);
             // Health Number Log for testing 
-            _healthbar.Draw(gameTime,spriteBatch, Health, Position);
             _hotbar.Draw(gameTime, spriteBatch, Position);
             weapon.attack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
