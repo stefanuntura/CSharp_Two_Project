@@ -16,6 +16,10 @@ namespace Graduation.States
 
         private Texture2D _wall;
         private Texture2D _floor;
+        private Texture2D _reception;
+        private Texture2D _drop;
+        private Texture2D _blackBlock;
+        private Texture2D _halfFloor;
         public Lobby(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             //Initialize map
@@ -52,7 +56,9 @@ namespace Graduation.States
                 }
             }
             _map.Draw(_spriteBatch, gameTime);
-
+            _spriteBatch.Draw(_reception, new Vector2(120, 287), Color.White);
+            _spriteBatch.Draw(_drop, new Vector2(18 * 32, 335), Color.White);
+            _spriteBatch.Draw(_halfFloor, new Vector2(18 * 32, 330), Color.White);
             _player.Draw(_spriteBatch, gameTime, this);
 
             for (int i = 0; i < 30; i++)
@@ -64,13 +70,13 @@ namespace Graduation.States
                 }
                 for (int j = 0; j < 20; j++)
                 {
+                    if(i > 17 && i < 21 && j > 13)
+                        _spriteBatch.Draw(_blackBlock, new Vector2(i * 32, j *32), Color.White);
                 }
             }
 
-            /* foreach (Enemy enemy in _enemies)
-             {
-                 enemy.Draw(_spriteBatch, gameTime);
-             }*/
+
+            //92/43
 
             _spriteBatch.End();
         }
@@ -79,6 +85,10 @@ namespace Graduation.States
         {
             _wall = game.Content.Load<Texture2D>("Lobby/wall3");
             _floor = game.Content.Load<Texture2D>("Lobby/floor");
+            _reception = game.Content.Load<Texture2D>("Lobby/reception");
+            _drop = game.Content.Load<Texture2D>("Lobby/dropWider");
+            _blackBlock = game.Content.Load<Texture2D>("Lobby/wall");
+            _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
         }
 
         public override void Update(GameTime gameTime)

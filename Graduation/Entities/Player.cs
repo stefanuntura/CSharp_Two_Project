@@ -320,20 +320,15 @@ namespace Graduation.Entities
                 {
                     case 1:
                         Speed += 30;
-
-                        Debug.WriteLine("Accessed");
                         break;
                     case 2:
                         Speed -= 30;
-                        Debug.WriteLine("Accessed");
                         break;
                     case 3:
                         Health = Health + 10 >= 100 ? 100 : Health + 10;
-                        Debug.WriteLine("Accessed");
                         break;
                     case 4:
                         Health = Health - 5 <= 0 ? 0 : Health -  5;
-                        Debug.WriteLine("Accessed");
                         break;
                 }
                 _effectActivated = true;

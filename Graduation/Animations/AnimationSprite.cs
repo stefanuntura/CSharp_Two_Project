@@ -56,14 +56,12 @@ namespace Graduation.Animations
 
         public virtual void Update(GameTime gameTime)
         {
-            //Debug.WriteLine(CurrentAnimation.Texture);
             _animationManager.Play(CurrentAnimation, _color);
             _animationManager.Update(gameTime);
         }
 
         public void SetActive(String animationName)
         {
-            //Debug.WriteLine(Animations[animationName].Texture);
             CurrentAnimation = Animations[animationName];
         }
     }
