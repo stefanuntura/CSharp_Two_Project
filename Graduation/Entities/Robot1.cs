@@ -58,7 +58,6 @@ namespace Graduation.Entities
             {
                 if (Util.weaponHitWall(weapon, box))
                 {
-                    player.throwing = false;
                     weapon.Position = weapon.NeutralPos;
                 }
             }

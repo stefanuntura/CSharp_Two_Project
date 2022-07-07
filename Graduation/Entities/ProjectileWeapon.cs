@@ -15,7 +15,5 @@ namespace Graduation.Entities
             Speed = 7;
             Damage = 1;
         }
-
-        
     }
 }
