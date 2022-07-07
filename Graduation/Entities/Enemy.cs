@@ -16,7 +16,9 @@ namespace Graduation.Entities
         public String _direction;
         private bool _canJump = false;
         private bool _strollLeft = false;
-        float dt;
+        public bool attack = false;
+        public bool throwing = false;
+        protected float dt;
         protected double _attackCooldown = 0;
         protected double _collisionDamageCooldown = 0;
         protected double _collisionDamage;
@@ -248,6 +250,7 @@ namespace Graduation.Entities
                 }
             }
         }
+
 
         public void DealCollisionDamage(Player player, Map map)
         {

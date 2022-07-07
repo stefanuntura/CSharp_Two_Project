@@ -32,6 +32,7 @@ namespace Graduation.Entities
         {
             weapon = new DatabaseWeapon(game, new Vector2(14, 10));
             LoadContent(game);
+            weapon.NeutralPos = new Vector2(0, 0);
             controller = new BossLevelOneController(this);
         }
 
@@ -47,6 +48,12 @@ namespace Graduation.Entities
             else
             {
                 Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if(Util.weaponHitPlayer(weapon, player))
+            {
+                weapon.Position = weapon.NeutralPos;
+                player.Health -= Damage;
             }
 
             DealCollisionDamage(player, map);

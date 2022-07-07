@@ -42,7 +42,7 @@ namespace Graduation
             spriteBatch.Draw(device, new Rectangle((int)Position.X, (int)Position.Y, (int)Dimension.X, (int)Dimension.Y), Color.White);  
         }
 
-        public void Update(GameTime gameTime, Player player, List<Enemy> enemies, Map map)
+        public virtual void Update(GameTime gameTime, Player player, List<Enemy> enemies, Map map)
         {
             //Check for collision with an enemy
             foreach (Enemy enemy in enemies)
@@ -54,11 +54,11 @@ namespace Graduation
                     enemy.Health -= Damage;
                 }
 
-                if(Util.weaponHitPlayer(this, player))
+               /* if(Util.weaponHitPlayer(this, player))
                 {
                     Position = NeutralPos;
                     player.Health -= Damage;
-                }
+                }*/
             }
 
             //Check for collision with any walls
@@ -71,6 +71,8 @@ namespace Graduation
                 }
             }
         }
+
+        // make the attack methods virtual aswell
 
         public void playerAttack(GameTime gameTime, SpriteBatch spriteBatch, Player player)
         {
@@ -129,5 +131,33 @@ namespace Graduation
 
             attackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
+        public void RangedAttack(GameTime gameTime, SpriteBatch spriteBatch, Enemy enemy)
+        {
+            if (enemy.attack)
+            {
+                _attackDirection = enemy._direction;
+                attackTimer = 0;
+                enemy.throwing = true;
+                enemy.attack = false;
+
+                Position.X = enemy.Position.X;
+                Position.Y = enemy.Position.Y + (enemy.Dimensions.Y / 2);
+            }
+            else if (enemy.throwing) 
+            {
+                Vector2 newPos = _attackDirection == "right" ? new Vector2(Position.X + Speed, Position.Y) :
+               new Vector2(Position.X - Speed, Position.Y);
+                Draw(spriteBatch, gameTime, newPos);
+
+                if (attackTimer > 500) //stops the weapon from drawing to the screen, even if it doesn't interact/hit anything
+                {
+                    enemy.throwing = false;
+                    Position = NeutralPos;
+                }
+            }
+            attackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+
+
     }
 }
