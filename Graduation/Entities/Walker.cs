@@ -49,7 +49,6 @@ namespace Graduation.Entities
 
         public override void LoadContent(Game game)
         {
-            //Debug.WriteLine("Test");
             AnimationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
               { "WalkRight", new Animation(game.Content.Load<Texture2D>("Enemy/WalkRight"), 2) },
