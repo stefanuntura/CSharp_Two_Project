@@ -71,7 +71,7 @@ namespace Graduation.States
             _spriteBatch.Draw(_drop, new Vector2(18 * 32, 335), Color.White);
             _spriteBatch.Draw(_halfFloor, new Vector2(18 * 32, 330), Color.White);
 
-            _player.Draw(_spriteBatch, gameTime, this);
+            _player.Draw(_spriteBatch, gameTime, this, _map.Enemies.Count);
 
             for (int i = 0; i < 30; i++)
             {
