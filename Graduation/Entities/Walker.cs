@@ -30,13 +30,14 @@ namespace Graduation.Entities
             HitPlayer(player);
 
             _attackItem.Update(gameTime);
-            if(_attackTimer > 1) _attackItem.SetActive("Right");
+            if(_attackTimer < 2)
+                AnimationSprite.SetActive(_direction == "right" ? "AttackRight" : "AttackLeft");
 
-            if (Util.InRangeX(this, player, 200) && player.Health > 0)
+            if (Util.InRangeX(this, player, 200) && player.Health > 0 && _attackTimer > 1)
             {
                 ChasePlayer(dt, player, map);
             }
-            else //if(player.Health > 0)
+            else if(_attackTimer > 1)//if(player.Health > 0)
             {
                 Stroll(dt, map);
             }
@@ -48,24 +49,23 @@ namespace Graduation.Entities
 
         public override void LoadContent(Game game)
         {
-            //Debug.WriteLine("Test");
             AnimationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
-              { "WalkRight", new Animation(game.Content.Load<Texture2D>("Player/WalkRight"), 2) },
-              { "WalkLeft", new Animation(game.Content.Load<Texture2D>("Player/WalkLeft"), 2) },
+              { "WalkRight", new Animation(game.Content.Load<Texture2D>("Enemy/WalkRight"), 2) },
+              { "WalkLeft", new Animation(game.Content.Load<Texture2D>("Enemy/WalkLeft"), 2) },
               { "StandRight", new Animation(game.Content.Load<Texture2D>("Player/player"), 1) },
               { "StandLeft", new Animation(game.Content.Load<Texture2D>("Player/playerL"), 1) },
-              { "UpRight", new Animation(game.Content.Load<Texture2D>("Player/UpRight"), 1) },
-              { "UpLeft", new Animation(game.Content.Load<Texture2D>("Player/UpLeft"), 1) },
-              { "DownRight", new Animation(game.Content.Load<Texture2D>("Player/DownRight"), 1) },
-              { "DownLeft", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 1) },
-            }, "StandRight", Color.Red);
+              { "AttackLeft", new Animation(game.Content.Load<Texture2D>("Enemy/AttackLeft"), 1) },
+              { "AttackRight", new Animation(game.Content.Load<Texture2D>("Enemy/AttackRight"), 1) },
+              { "DownRight", new Animation(game.Content.Load<Texture2D>("Enemy/FallRight"), 1) },
+              { "DownLeft", new Animation(game.Content.Load<Texture2D>("Enemy/FallLeft"), 1) },
+            }, "StandRight", Color.White);
 
             _attackItem = new AnimationSprite(new Dictionary<string, Animation>()
             {
-              { "WalkRight", new Animation(game.Content.Load<Texture2D>("Player/DownLeft"), 3) },
-              { "Right", new Animation(game.Content.Load<Texture2D>("Health/healthbar"), 1) },
-            }, "WalkRight", Color.White * 0.5f);
+              { "poolLeft", new Animation(game.Content.Load<Texture2D>("Enemy/poolLeft"), 5) },
+              { "poolRight", new Animation(game.Content.Load<Texture2D>("Enemy/attackPool"), 5) },
+            }, "poolRight", Color.White * 0.5f);
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
 
@@ -74,22 +74,24 @@ namespace Graduation.Entities
 
         public void HitPlayer(Player player)
         {
-            if (Util.InRange(player, this, (float)_attackRange) && _attackCooldown >= 4000)
+            float range = (float)_attackRange;
+            if (player.Position.X > Position.X)
+                range += Dimensions.X;
+            if (Util.InRange(player, this, (float)range) && _attackCooldown >= 4000)
             {
                 player.Health -= Damage;
                 _attackCooldown = 0;
-                _attackItem.SetActive("WalkRight");
+                _attackItem.SetActive(_direction == "right" ? "poolRight" :  "poolLeft");
                 _attackTimer = 0;
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Debug.WriteLine(Position + " ||" + Dimensions);
             spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
-            if(_attackItem != null)
+            if(_attackItem != null && _attackTimer < 1)
             {
-                _attackItem.Draw(spriteBatch, Position);
+                _attackItem.Draw(spriteBatch, _direction == "right" ? new Vector2(Position.X + Dimensions.X - 2, Position.Y - 12) : new Vector2(Position.X - 38, Position.Y - 15));
             }
 
             AnimationSprite.Draw(spriteBatch, Position);

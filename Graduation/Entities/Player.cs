@@ -61,11 +61,11 @@ namespace Graduation.Entities
             _effectActivated = true;
 
             //Creating effects
-            _effects.Add(new PlayerEffect("", true, 0));
-            _effects.Add(new PlayerEffect("20s Speedboost", true, 20));
-            _effects.Add(new PlayerEffect("10s Slowness", false, 10));
-            _effects.Add(new PlayerEffect("+10 Health", true, 2));
-            _effects.Add(new PlayerEffect("-5 Health", false, 2));
+            _effects.Add(new PlayerEffect(game, "", true, 0));
+            _effects.Add(new PlayerEffect(game, "20s Speedboost", true, 20));
+            _effects.Add(new PlayerEffect(game, "10s Slowness", false, 10));
+            _effects.Add(new PlayerEffect(game, "+10 Health", true, 3));
+            _effects.Add(new PlayerEffect(game, "-5 Health", false, 2));
             //_effects.Add(new PlayerEffect("+5% Damage", true, 0));
             //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
@@ -97,7 +97,7 @@ namespace Graduation.Entities
                     if (Util.CollectedItem(this, item))
                     {
                         _effectTimer = 0;
-                        _currentEffect = (int)Util.RandomDouble(1, _effects.Count - 1);
+                        _currentEffect = (int)Util.RandomDouble(1, _effects.Count);
                         _effectActivated = false;
                         map.Items.Remove(item);
                         break;
@@ -248,6 +248,8 @@ namespace Graduation.Entities
             _healthbar.Draw(gameTime,spriteBatch, Health, Position);
             _hotbar.Draw(gameTime, spriteBatch, Position);
             weapon.attack(gameTime, spriteBatch, this);
+            if (_effectTimer < _effects[_currentEffect].TimeSpan)
+                _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
 
             if (0 < _effectTimer && _effectTimer <= 2)
             {

@@ -13,7 +13,7 @@ namespace Graduation.Entities
         public AnimationSprite AnimationSprite;
         private bool _isWalking;
         private Vector2 _destination;
-        private String _direction;
+        protected String _direction;
         private bool _canJump = false;
         private bool _strollLeft = false;
         float dt;
@@ -140,6 +140,7 @@ namespace Graduation.Entities
             this.dt = dt;
             changeDimensions();
             float newY;
+            AnimationSprite.SetActive(_direction == "right" ? "DownRight" : "DownLeft");
             Gravity = Gravity < Speed * 1.5 ? Gravity + 10 : Gravity;
 
             bool collision = false;
