@@ -52,10 +52,16 @@ namespace Graduation.Entities
             {
                 Stroll(dt, map);
             }
-            /*else
+
+            //Check for collision with any walls
+            foreach (Box box in map.Boxes)
             {
-                Roam(dt, map);
-            }*/
+                if (Util.weaponHitWall(weapon, box))
+                {
+                    player.throwing = false;
+                    weapon.Position = weapon.NeutralPos;
+                }
+            }
         }
 
         public override void LoadContent(Game game)

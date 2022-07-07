@@ -30,7 +30,7 @@ namespace Graduation.Entities
 
         public BossLevelOne(Game game, Vector2 position) : base(game, position, 300, 300, 30, 30, 40)
         {
-            weapon = new DatabaseWeapon(game, new Vector2(14, 10));
+            weapon = new DatabaseWeapon(game, new Vector2(21, 15));
             LoadContent(game);
             weapon.NeutralPos = new Vector2(0, 0);
             controller = new BossLevelOneController(this);

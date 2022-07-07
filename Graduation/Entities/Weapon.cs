@@ -53,12 +53,6 @@ namespace Graduation
                     player.throwing = false;
                     enemy.Health -= Damage;
                 }
-
-               /* if(Util.weaponHitPlayer(this, player))
-                {
-                    Position = NeutralPos;
-                    player.Health -= Damage;
-                }*/
             }
 
             //Check for collision with any walls
