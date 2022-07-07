@@ -248,7 +248,7 @@ namespace Graduation.Entities
             _hotbar.Draw(gameTime, spriteBatch, Position);
             String remainingEnemies = "Enemies remaining: " + i;
             spriteBatch.DrawString(_font, remainingEnemies, new Vector2(Position.X + 200, Position.Y - 225), Color.DarkSlateGray);
-            weapon.attack(gameTime, spriteBatch, this);
+            weapon.playerAttack(gameTime, spriteBatch, this);
             if (_effectTimer < _effects[_currentEffect].TimeSpan)
                 _effects[_currentEffect].Draw(spriteBatch, gameTime, this);
 
