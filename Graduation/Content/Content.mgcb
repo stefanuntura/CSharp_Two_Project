@@ -392,6 +392,18 @@
 /processorParam:TextureFormat=Color
 /build:Lobby/floor3.png
 
+#begin Lobby/gl.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Lobby/gl.png
+
 #begin Lobby/reception.png
 /importer:TextureImporter
 /processor:TextureProcessor

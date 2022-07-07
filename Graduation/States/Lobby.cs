@@ -22,12 +22,15 @@ namespace Graduation.States
         private Texture2D _halfFloor;
         private Texture2D _weaponControls;
         private Texture2D _generalControls;
+        private Texture2D _goodLuck;
         private bool _control1 = true;
+        private List<String> _conversation;
         public Lobby(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             //Initialize map
             _map = new TestMap.Map();
             _player = new Player(game, new Vector2(50,50));
+            _conversation = new List<String>();
             LoadContent(game);
 
             for (int i = 0; i < 30; i++)
@@ -43,6 +46,8 @@ namespace Graduation.States
                 // black floor blocks
                 _map.addBox(new TestMap.Box(game, new Vector2(32 * 18, 150), new Vector2(0, 330), Color.Black));
                 _map.addBox(new TestMap.Box(game, new Vector2(100, 150), new Vector2(32 * 21, 330), Color.Black));
+
+                _conversation.Add("");
             }
         }
 
@@ -50,6 +55,7 @@ namespace Graduation.States
         {
 
             _spriteBatch.Begin();
+
             for (int i = 0; i < 30; i++)
             {
                 for (int j = 0; j < 20; j++)
@@ -59,6 +65,8 @@ namespace Graduation.States
                 }
             }
             _map.Draw(_spriteBatch, gameTime);
+
+            //Draw design elements
             _spriteBatch.Draw(_reception, new Vector2(120, 287), Color.White);
             _spriteBatch.Draw(_drop, new Vector2(18 * 32, 335), Color.White);
             _spriteBatch.Draw(_halfFloor, new Vector2(18 * 32, 330), Color.White);
@@ -74,12 +82,14 @@ namespace Graduation.States
                 }
                 for (int j = 0; j < 20; j++)
                 {
+                    //Draw Black blocks in hole
                     if(i > 17 && i < 21 && j > 13)
                         _spriteBatch.Draw(_blackBlock, new Vector2(i * 32, j *32), Color.White);
                 }
             }
 
-            _spriteBatch.Draw(_player.Position.X > 300 ?_weaponControls : _generalControls, new Vector2(420, 100), Color.Black * 0.5f);
+            // display control explanation
+            _spriteBatch.Draw(_player.Position.Y > 320 ? _goodLuck : _player.Position.X > 300 ?_weaponControls : _generalControls, new Vector2(430, 100), Color.Black * 0.5f);
 
             _spriteBatch.End();
         }
@@ -94,21 +104,24 @@ namespace Graduation.States
             _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
             _weaponControls = game.Content.Load<Texture2D>("Lobby/weapon");
             _generalControls = game.Content.Load<Texture2D>("Lobby/control");
+            _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
         }
 
         public override void Update(GameTime gameTime)
         {
-
+            //Move to next gamestate
             if (_player.Position.Y > 430)
             {
                 _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
             }
 
+            // Place player back at spawn if they move outside map
             if (_player.Position.X < 0 || _player.Position.Y < 0)
             {
                 _player.Position = new Vector2(50, 250);
             }
 
+            //set bool for switch between instructions
             _control1 = _player.Position.X < 250 ? true : false;
 
             _player.Update(gameTime, _map, this);
