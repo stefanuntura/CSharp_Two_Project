@@ -18,6 +18,9 @@ namespace Graduation.States
         //private BossLevelOne _bossLevelOne;
         private TestMap.Map _map;
         private double _counter = 0;
+
+        public Texture2D background;
+
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
             //Initialize map
@@ -64,14 +67,15 @@ namespace Graduation.States
             }, 32);
 
             _map.LoadContent(game);
+            LoadContent(game);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {   
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
 
+            _spriteBatch.Draw(background, new Rectangle(0,0, 2816, 992), Color.White);
             _map.Draw(_spriteBatch, gameTime);
-
             _player.Draw(_spriteBatch, gameTime, _map.Enemies.Count);
 
             _spriteBatch.End();
@@ -98,6 +102,11 @@ namespace Graduation.States
             _map.Update(gameTime, _player);
 			_player.Update(gameTime, _map, this);
             _camera.Follow(_player);
+        }
+
+        public void LoadContent(Game game)
+        {
+            background = game.Content.Load<Texture2D>("Controls/CaveBackground");
         }
     }
 }
