@@ -175,6 +175,12 @@ namespace Graduation.States
 				
                 if(_counter > 1000) { _game.ChangeState(new GameOverState(_game, _graphicsDevice, _contentManager)); }
             }
+
+            if(_enemies.Count == 0)
+            {
+                //_game.ChangeState.
+            }
+
             _player.Update(gameTime, _map, this);
             _camera.Follow(_player);
             _player.weapon.Update(gameTime, _player, _map.Enemies, _map);
