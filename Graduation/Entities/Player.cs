@@ -69,7 +69,7 @@ namespace Graduation.Entities
             //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
 
-        public void Update(GameTime gameTime, Map map, GameState gs)
+        public void Update(GameTime gameTime, Map map, State gs)
         {
             if (Health <= 0)
             {
@@ -240,12 +240,18 @@ namespace Graduation.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime, int i)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime,  State gs, int i)
         {
+            // Disable healthbar and fix position of hotbar in lobby 
+            if (gs.GetType() != typeof(Lobby))
+            {
+                _healthbar.Draw(gameTime, spriteBatch, Health, Position);
+                _hotbar.Draw(gameTime, spriteBatch, Position);
+            }
+            else
+                _hotbar.Draw(gameTime, spriteBatch, new Vector2(350, 230));
+
             _animationSprite.Draw(spriteBatch, Position);
-            // Health Number Log for testing 
-            _healthbar.Draw(gameTime,spriteBatch, Health, Position);
-            _hotbar.Draw(gameTime, spriteBatch, Position);
             String remainingEnemies = "Enemies remaining: " + i;
             spriteBatch.DrawString(_font, remainingEnemies, new Vector2(Position.X + 200, Position.Y - 225), Color.Crimson);
             weapon.playerAttack(gameTime, spriteBatch, this);
@@ -312,20 +318,15 @@ namespace Graduation.Entities
                 {
                     case 1:
                         Speed += 30;
-
-                        Debug.WriteLine("Accessed");
                         break;
                     case 2:
                         Speed -= 30;
-                        Debug.WriteLine("Accessed");
                         break;
                     case 3:
                         Health = Health + 10 >= 100 ? 100 : Health + 10;
-                        Debug.WriteLine("Accessed");
                         break;
                     case 4:
                         Health = Health - 5 <= 0 ? 0 : Health -  5;
-                        Debug.WriteLine("Accessed");
                         break;
                 }
                 _effectActivated = true;

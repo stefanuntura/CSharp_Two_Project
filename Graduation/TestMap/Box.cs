@@ -17,6 +17,7 @@ namespace Graduation.TestMap
             Dimensions = dimensions;
             Position = position;
             BoxColour = color;
+            LoadContent(game);
         }
 
         public virtual void LoadContent(Game game)

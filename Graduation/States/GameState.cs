@@ -27,6 +27,7 @@ namespace Graduation.States
             _map = new TestMap.Map();
 
             _camera = new Camera();
+
             _player = new Player(game, new Vector2(100, 100));
             _enemies = new List<Enemy>();
 
@@ -75,7 +76,8 @@ namespace Graduation.States
 
             _spriteBatch.Draw(background, new Rectangle(0,0, 2816, 992), Color.White);
             _map.Draw(_spriteBatch, gameTime);
-            _player.Draw(_spriteBatch, gameTime, _map.Enemies.Count);
+
+            _player.Draw(_spriteBatch, gameTime,this,  _map.Enemies.Count);
 
             _spriteBatch.End();
         }
