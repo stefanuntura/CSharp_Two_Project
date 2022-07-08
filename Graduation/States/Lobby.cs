@@ -84,6 +84,11 @@ namespace Graduation.States
 
             _map.Update(gameTime, _player);
             _player.Update(gameTime, _map, this);
+
+            if(_player.Health == 0)
+            {
+                _player.Health = 100;
+            }
         }
 
         public void LoadContent(Game game)

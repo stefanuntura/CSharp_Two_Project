@@ -84,7 +84,7 @@ namespace Graduation.Entities
                 if (_canJump)
                     _animationSprite.SetActive(_direction == "right" ? "StandRight" : "StandLeft");
 
-                controller.handleInput(map);
+                controller.handleInput(map, gs);
 
                 moveY(map);
                 _animationSprite.Update(gameTime);
@@ -332,6 +332,9 @@ namespace Graduation.Entities
             }
         }
 
-        
+        public void Restart()
+        {
+            this.Health = 0;
+        }
     }
 }
