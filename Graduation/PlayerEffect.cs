@@ -27,7 +27,7 @@ namespace Graduation
             _animationSprite.SetActive(Title);
             _animationSprite.Update(gameTime);
             _animationSprite.Draw(spriteBatch,
-                new Vector2(player.Position.X + (player.Dimensions.X / 2) - 20, player.Position.Y + 10));
+                new Vector2(player.Position.X + (player.Dimensions.X / 2) - 20, player.Position.Y + 25));
         }
 
         public void LoadContent(Game game)

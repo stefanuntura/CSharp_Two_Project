@@ -15,7 +15,6 @@ namespace Graduation.TestMap
         public List<Box> Boxes { get; set; }
         public List<Enemy> Enemies;
         public List<Item> Items;
-        private List<CollisionTiles> collisionTiles = new List<CollisionTiles>();
         private int width, height;
         public Map()
         {
@@ -40,11 +39,6 @@ namespace Graduation.TestMap
                     break;
                 }
             }
-        }
-
-        private List<CollisionTiles> CollisionTiles
-        {
-            get { return collisionTiles; }
         }
 
         public int Width 
