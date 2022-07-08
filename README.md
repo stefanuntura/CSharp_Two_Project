@@ -45,4 +45,5 @@ This section handles the installation of the necessary software to be able to ru
    - In VS, navigate to "Extensions -> Manage Extensions" in the menu bar.
    - Search for "MonoGame" in top right search window.
    - Install "MonoGame project templates".
-3. Open 'Graduation.sln" and run the game!
+3. Open 'Graduation.sln" and press the "F5" button!
+Congrats, now you are running the game! Enjoy!
