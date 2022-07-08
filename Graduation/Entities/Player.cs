@@ -65,8 +65,6 @@ namespace Graduation.Entities
             _effects.Add(new PlayerEffect(game, "10s Slowness", false, 10));
             _effects.Add(new PlayerEffect(game, "+10 Health", true, 3));
             _effects.Add(new PlayerEffect(game, "-5 Health", false, 2));
-            //_effects.Add(new PlayerEffect("+5% Damage", true, 0));
-            //_effects.Add(new PlayerEffect("-5% Damage", false, 0));
         }
 
         public void Update(GameTime gameTime, Map map, State gs)
@@ -76,7 +74,7 @@ namespace Graduation.Entities
                 _animationSprite.SetActive("Dead");
                 _animationSprite.Update(gameTime);
                 moveY(map);
-                changePlayerDimensions();
+                Util.changePlayerDimensions(_animationSprite, this);
             }
             else
             {
@@ -107,11 +105,11 @@ namespace Graduation.Entities
             }
         }
 
-        public void moveRight(Map map)
+        public override void moveRight(Map map)
         {
             _animationSprite.SetActive("WalkRight");
             _direction = "right";
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
             if (Position.X < 3500)
             {
                 bool collision = false;
@@ -141,11 +139,11 @@ namespace Graduation.Entities
             }
         }
 
-        public void moveLeft(Map map)
+        public override void moveLeft(Map map)
         {
             _animationSprite.SetActive("WalkLeft");
             _direction = "left";
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
             if (Position.X > 0)
             {
                 bool collision = false;
@@ -179,7 +177,7 @@ namespace Graduation.Entities
         {
             float newY;
             Gravity = Gravity < VerticalSpeed * 1.5 ? Gravity + 10 : Gravity;
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
 
 
             bool collision = false;
@@ -282,14 +280,10 @@ namespace Graduation.Entities
             }, "StandRight", Color.White);
 
             _font = game.Content.Load<SpriteFont>("Fonts/Font");
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
         }
 
-        public void changePlayerDimensions()
-        {
-            Animation currAnim = _animationSprite.CurrentAnimation;
-            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
-        }
+
 
         public void switchWeapon(int i)
         {

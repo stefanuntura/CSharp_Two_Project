@@ -82,8 +82,6 @@ namespace Graduation.Entities
            
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
-
-            // animationsprite erstellen
         }
 
         public void HitPlayer(Player player)
@@ -103,13 +101,6 @@ namespace Graduation.Entities
         {
             spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
 
-            /*if (_attackItem != null && _attackTimer < 1)
-            {
-                _attackItem.Draw(spriteBatch, _direction == "right" ? new Vector2(Position.X + Dimensions.X - 2, Position.Y - 12) : new Vector2(Position.X - 38, Position.Y - 15));
-            }*/
-
-            spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + (Dimensions.X / 2) - (Health / 2)), (int)Position.Y - 20, (int)Health, 2), Color.Red);
-
             AnimationSprite.Draw(spriteBatch, Position);
 
             weapon.RangedAttack(gameTime, spriteBatch, this);
@@ -125,12 +116,12 @@ namespace Graduation.Entities
             {
                 if (player.Position.X > Position.X)
                 {
-                    moveRight(map, (float)Speed);
+                    moveRight(map);
 
                 }
                 else
                 {
-                    moveLeft(map, (float)Speed);
+                    moveLeft(map);
                 }
             }
 

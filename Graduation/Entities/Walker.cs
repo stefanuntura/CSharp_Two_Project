@@ -41,10 +41,6 @@ namespace Graduation.Entities
             {
                 Stroll(dt, map);
             }
-            /*else
-            {
-                Roam(dt, map);
-            }*/
         }
 
         public override void LoadContent(Game game)

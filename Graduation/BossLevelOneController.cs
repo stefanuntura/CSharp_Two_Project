@@ -17,12 +17,12 @@ namespace Graduation
         {
             if ((int)timer < 0.5)
             {
-                _bossLevelOne.dashLeft(map);
+                _bossLevelOne.moveLeft(map);
             }
 
             if ((int)timer > 0.5 && (int)timer < 2)
             {
-                _bossLevelOne.dashRight(map);
+                _bossLevelOne.moveRight(map);
             }
 
             if ((int)timer > 4 && (int)timer < 20)
@@ -32,7 +32,7 @@ namespace Graduation
 
             if ((int)timer > 20 && (int)timer < 22)
             {
-                _bossLevelOne.dashLeft(map);
+                _bossLevelOne.moveLeft(map);
             }
         }
 

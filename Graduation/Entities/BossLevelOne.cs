@@ -80,7 +80,7 @@ namespace Graduation.Entities
             Texture = new Texture2D(GraphicsDevice, 1, 1);
             Texture.SetData(new[] { Color.White });
 
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -92,17 +92,11 @@ namespace Graduation.Entities
             weapon.bossRangedAttack(gameTime, spriteBatch, this);
         }
 
-        public void changePlayerDimensions()
-        {
-            Animation currAnim = _animationSprite.CurrentAnimation;
-            Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
-        }
-
         public void moveY(Map map)
         {
             float newY;
             Gravity = Gravity < Speed * 1.5 ? Gravity + 10 : Gravity;
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
 
 
             bool collision = false;
@@ -162,11 +156,11 @@ namespace Graduation.Entities
             }
         }
 
-        public void dashRight(Map map)
+        public override void moveRight(Map map)
         {
             _animationSprite.SetActive("DashRight");
             _direction = "right";
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
             if (Position.X < 3500)
             {
                 bool collision = false;
@@ -194,11 +188,11 @@ namespace Graduation.Entities
             }
         }
 
-        public void dashLeft(Map map)
+        public override void moveLeft(Map map)
         {
             _animationSprite.SetActive("DashLeft");
             _direction = "left";
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
             if (Position.X > 0)
             {
                 bool collision = false;
@@ -233,19 +227,11 @@ namespace Graduation.Entities
             {
                 if (player.Position.X > Position.X)
                 {
-                    dashRight(map);
-                    //if(this.Position.Y > player.Position.Y || this.Position.Y == player.Position.Y)
-                    //{
-                    //    jump();
-                    //}
+                    moveRight(map);
                 }
                 else
                 {
-                    dashLeft(map);
-                    //if (this.Position.Y > player.Position.Y || this.Position.Y == player.Position.Y)
-                    //{
-                    //    jump();
-                    //}
+                    moveLeft(map);
                 }
             }
         }
@@ -284,7 +270,7 @@ namespace Graduation.Entities
         {
             _animationSprite.SetActive("StandLeft");
             _direction = "left";
-            changePlayerDimensions();
+            Util.changePlayerDimensions(_animationSprite, this);
         }
     }
 }

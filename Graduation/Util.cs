@@ -108,5 +108,11 @@ namespace Graduation
             }
             return false;
         }
+
+        public static void changePlayerDimensions(AnimationSprite _animationSprite, Entity entity)
+        {
+            Animation currAnim = _animationSprite.CurrentAnimation;
+            entity.Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
+        }
     }
 }

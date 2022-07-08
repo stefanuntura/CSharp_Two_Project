@@ -58,7 +58,7 @@ namespace Graduation.Entities
             Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
         }
 
-        public void moveLeft(Map map, float distance)
+        public override void moveLeft(Map map)
         {
             AnimationSprite.SetActive("WalkLeft");
             _direction = "left";
@@ -68,7 +68,7 @@ namespace Graduation.Entities
             {
                 bool collision = false;
                 Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X - (float)distance * dt, Position.Y);
+                Vector2 newPos = new Vector2(Position.X - (float)Speed * dt, Position.Y);
 
                 foreach (Box box in map.Boxes)
                 {
@@ -98,7 +98,7 @@ namespace Graduation.Entities
             }
         }
 
-        public void moveRight(Map map, float distance)
+        public override void moveRight(Map map)
         {
             AnimationSprite.SetActive("WalkRight");
             _direction = "right";
@@ -107,7 +107,7 @@ namespace Graduation.Entities
             {
                 bool collision = false;
                 Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X + (float)distance * dt, Position.Y);
+                Vector2 newPos = new Vector2(Position.X + (float)Speed * dt, Position.Y);
 
                 foreach (Box box in map.Boxes)
                 {
@@ -178,59 +178,17 @@ namespace Graduation.Entities
             }
         }
 
-        public void Roam(float dt, Map map)
-        {
-            this.dt = dt;
-            if (!_isWalking)
-            {
-                Random rand = new Random();
-                if (rand.NextDouble() < 0.02)
-                {
-                    double randomX = rand.NextDouble() < 0.5 ? Util.RandomDouble(-50, -100) : Util.RandomDouble(50, 100);
-                    _destination = new Vector2(Position.X + (float)randomX, Position.Y);
-                    _isWalking = true;
-                }
-            }
-            else
-            {
-                if (_destination.X < Position.X)
-                {
-                    if (_destination.X >= Position.X - Speed * dt)
-                    {
-                        moveLeft(map, Position.X - _destination.X);
-                        _isWalking = false;
-                    }
-                    else
-                    {
-                        moveLeft(map, (float)Speed);
-                    }
-                }
-                else
-                {
-                    if (_destination.X <= Position.X + Speed * dt)
-                    {
-                        moveRight(map, _destination.X - Position.X);
-                        _isWalking = false;
-                    }
-                    else
-                    {
-                        moveRight(map, (float)Speed);
-                    }
-                }
-            }
-        }
-
         public void Stroll(float dt, Map map)
         {
             this.dt = dt;
             Speed = 70;
             if (_strollLeft)
             {
-                moveLeft(map, (float)Speed);
+                moveLeft(map);
             }
             else
             {
-                moveRight(map, (float)Speed);
+                moveRight(map);
             }
         }
 
@@ -242,11 +200,11 @@ namespace Graduation.Entities
             {
                 if (player.Position.X > Position.X)
                 {
-                    moveRight(map, (float)Speed);
+                    moveRight(map);
                 }
                 else
                 {
-                    moveLeft(map, (float)Speed);
+                    moveLeft(map);
                 }
             }
         }
@@ -258,18 +216,6 @@ namespace Graduation.Entities
             {
                 player.Health -= this._collisionDamage;
                 _collisionDamageCooldown = 0;
-
-                //Player Damage Knockback
-
-                /*if(this.Position.X > player.Position.X)
-                {
-                    Vector2 newPos = new Vector2(Position.X + 30, Position.Y);
-                    if(!Util.newPositionBoxCollision(this, map, newPos))
-                    {
-                        Position = newPos;
-                    }
-                }
-                else {player.moveRight(map);}*/
             }
         }
     }

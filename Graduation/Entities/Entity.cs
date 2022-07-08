@@ -35,5 +35,9 @@ namespace Graduation.Entities
 
             return false;
         }
+
+        public abstract void moveLeft(Map map);
+
+        public abstract void moveRight(Map map);
     }
 }
