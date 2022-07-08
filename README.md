@@ -32,3 +32,17 @@
     "Add button on menu page"
   </li>
 </ul>
+<h1>Installation Guide:</h1>
+
+This section handles the installation of the necessary software to be able to run the game and will contain steps on how to do so.  This application was built using Monogame 3.8 and Visual Studio 2019 (VS) Community edition. but setting up a development environment is not required to run the appliation.
+
+1. Download Visual Studio 2019 Community Edition with the following components:
+   - .NET cross-platform development - For Desktop OpenGL and DirectX platforms
+   - Mobile Development with .NET - For Android and iOS platforms
+   - Universal Windows Platform development - For Windows 10 and Xbox UWP platforms
+   - .Net Desktop Development - For Desktop OpenGL and DirectX platforms to target normal .NET Framework
+2.  Install MonoGame extension for Visual Studio 2019
+   - In VS, navigate to "Extensions -> Manage Extensions" in the menu bar.
+   - Search for "MonoGame" in top right search window.
+   - Install "MonoGame project templates".
+3. Open 'Graduation.sln" and run the game!
