@@ -1,6 +1,7 @@
 ﻿using Graduation.Entities;
 using Microsoft.Xna.Framework.Input;
 using Graduation.TestMap;
+using Graduation.States;
 
 namespace Graduation
 {
@@ -14,7 +15,7 @@ namespace Graduation
             _player = player;
         }
 
-        public void handleInput(Map map)
+        public void handleInput(Map map, State gs)
         {
             _kState = Keyboard.GetState(); ;
             Keys[] keys = _kState.GetPressedKeys();
@@ -43,6 +44,12 @@ namespace Graduation
                         break;
                     case Keys.D3:
                         _player.switchWeapon(3);
+                        break;
+                    case Keys.Escape:
+                        if (gs.GetType() != typeof(Lobby))
+                        {
+                            _player.Restart();
+                        }
                         break;
                 }
             }
