@@ -15,6 +15,7 @@ namespace Graduation.States
         private Player _player;
         private TestMap.Map _map;
 
+        //Design Elements
         private Texture2D _wall;
         private Texture2D _floor;
         private Texture2D _reception;
@@ -24,7 +25,6 @@ namespace Graduation.States
         private Texture2D _weaponControls;
         private Texture2D _generalControls;
         private Texture2D _goodLuck;
-        private Texture2D _plant;
         private Texture2D _couch;
         private Texture2D _year;
 
@@ -98,13 +98,13 @@ namespace Graduation.States
                 }
 
                 //Draw Dialogue bubble
-                if (_displayTimer > 5 && _player.Position.X > 120 && _player.Position.X < 200)
+                if (_displayTimer > 6 && _player.Position.X > 120 && _player.Position.X < 200)
                 {
-                    int sprite = (int)Util.RandomDouble(0, 3);
+                    int sprite = (int)Math.Floor(Util.RandomDouble(0, 8));
                     _animationSprite.SetActive(sprite.ToString());
                     _displayTimer = 0;
                 }
-                else if (_displayTimer <= 5 && _player.Position.X > 120 && _player.Position.X < 200)
+                else if (_displayTimer <= 6 && _player.Position.X > 120 && _player.Position.X < 200)
                 {
                     _animationSprite.Draw(_spriteBatch, new Vector2(80, 80));
                 }
@@ -138,7 +138,6 @@ namespace Graduation.States
             _generalControls = game.Content.Load<Texture2D>("Lobby/control");
             _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
             _couch = game.Content.Load<Texture2D>("Lobby/couch");
-            _plant = game.Content.Load<Texture2D>("Lobby/plant");
             _year = game.Content.Load<Texture2D>("Lobby/Y1");
 
             _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
@@ -146,6 +145,11 @@ namespace Graduation.States
               { "0", new Animation(game.Content.Load<Texture2D>("Lobby/conv0"), 1) },
               { "1", new Animation(game.Content.Load<Texture2D>("Lobby/conv1"), 1) },
               { "2", new Animation(game.Content.Load<Texture2D>("Lobby/conv2"), 1) },
+              { "3", new Animation(game.Content.Load<Texture2D>("Lobby/conv3"), 1) },
+              { "4", new Animation(game.Content.Load<Texture2D>("Lobby/conv4"), 1) },
+              { "5", new Animation(game.Content.Load<Texture2D>("Lobby/conv5"), 1) },
+              { "6", new Animation(game.Content.Load<Texture2D>("Lobby/conv6"), 1) },
+              { "7", new Animation(game.Content.Load<Texture2D>("Lobby/conv7"), 1) },
             }, "0", Color.White * 0.75f);
         }
 
