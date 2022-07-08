@@ -36,7 +36,7 @@ namespace Graduation
             {
               { "-5 Health", new Animation(game.Content.Load<Texture2D>("Item/hpLoss"), 4) },
               { "10s Slowness", new Animation(game.Content.Load<Texture2D>("Item/slowEffect"), 3) },
-              { "20s Speedboost", new Animation(game.Content.Load<Texture2D>("Enemy/hpGain"), 7) },
+              { "20s Speedboost", new Animation(game.Content.Load<Texture2D>("Item/speed"), 2) },
               { "+10 Health", new Animation(game.Content.Load<Texture2D>("Enemy/hpGain"), 7) },
             }, "20s Speedboost", Color.White);
         }
