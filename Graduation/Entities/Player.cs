@@ -96,7 +96,7 @@ namespace Graduation.Entities
                     if (Util.CollectedItem(this, item))
                     {
                         _effectTimer = 0;
-                        _currentEffect = (int)Util.RandomDouble(1, _effects.Count);
+                        _currentEffect = (int)Math.Floor(Util.RandomDouble(1, _effects.Count));
                         _effectActivated = false;
                         map.Items.Remove(item);
                         break;
