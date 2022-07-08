@@ -57,6 +57,62 @@ namespace Graduation.States
             }
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            //update conversation timer
+            _displayTimer += gameTime.ElapsedGameTime.TotalSeconds;
+
+            //Move to next gamestate
+            if (_player.Position.Y > 430)
+            {
+                _transitionTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                moveState = true;
+                if (_transitionTimer > 2)
+                    _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
+            }
+
+            // Place player back at spawn if they move outside map
+            if (_player.Position.X < 0 || _player.Position.Y < 0)
+            {
+                _player.Position = new Vector2(50, 250);
+            }
+
+            _animationSprite.Update(gameTime);
+
+            _player.Update(gameTime, _map, this);
+            _player.weapon.Update(gameTime, _player, _map.Enemies, _map);
+
+            _map.Update(gameTime, _player);
+            _player.Update(gameTime, _map, this);
+        }
+
+        public void LoadContent(Game game)
+        {
+            _wall = game.Content.Load<Texture2D>("Lobby/wall3");
+            _floor = game.Content.Load<Texture2D>("Lobby/floor");
+            _reception = game.Content.Load<Texture2D>("Lobby/reception");
+            _drop = game.Content.Load<Texture2D>("Lobby/dropWider");
+            _blackBlock = game.Content.Load<Texture2D>("Lobby/wall");
+            _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
+            _weaponControls = game.Content.Load<Texture2D>("Lobby/weapon");
+            _generalControls = game.Content.Load<Texture2D>("Lobby/control");
+            _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
+            _couch = game.Content.Load<Texture2D>("Lobby/couch");
+            _year = game.Content.Load<Texture2D>("Lobby/Y1");
+
+            _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
+            {
+              { "0", new Animation(game.Content.Load<Texture2D>("Lobby/conv0"), 1) },
+              { "1", new Animation(game.Content.Load<Texture2D>("Lobby/conv1"), 1) },
+              { "2", new Animation(game.Content.Load<Texture2D>("Lobby/conv2"), 1) },
+              { "3", new Animation(game.Content.Load<Texture2D>("Lobby/conv3"), 1) },
+              { "4", new Animation(game.Content.Load<Texture2D>("Lobby/conv4"), 1) },
+              { "5", new Animation(game.Content.Load<Texture2D>("Lobby/conv5"), 1) },
+              { "6", new Animation(game.Content.Load<Texture2D>("Lobby/conv6"), 1) },
+              { "7", new Animation(game.Content.Load<Texture2D>("Lobby/conv7"), 1) },
+            }, "0", Color.White * 0.75f);
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
 
@@ -123,63 +179,6 @@ namespace Graduation.States
             }
 
                 _spriteBatch.End();
-        }
-
-
-        public void LoadContent(Game game)
-        {
-            _wall = game.Content.Load<Texture2D>("Lobby/wall3");
-            _floor = game.Content.Load<Texture2D>("Lobby/floor");
-            _reception = game.Content.Load<Texture2D>("Lobby/reception");
-            _drop = game.Content.Load<Texture2D>("Lobby/dropWider");
-            _blackBlock = game.Content.Load<Texture2D>("Lobby/wall");
-            _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
-            _weaponControls = game.Content.Load<Texture2D>("Lobby/weapon");
-            _generalControls = game.Content.Load<Texture2D>("Lobby/control");
-            _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
-            _couch = game.Content.Load<Texture2D>("Lobby/couch");
-            _year = game.Content.Load<Texture2D>("Lobby/Y1");
-
-            _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
-            {
-              { "0", new Animation(game.Content.Load<Texture2D>("Lobby/conv0"), 1) },
-              { "1", new Animation(game.Content.Load<Texture2D>("Lobby/conv1"), 1) },
-              { "2", new Animation(game.Content.Load<Texture2D>("Lobby/conv2"), 1) },
-              { "3", new Animation(game.Content.Load<Texture2D>("Lobby/conv3"), 1) },
-              { "4", new Animation(game.Content.Load<Texture2D>("Lobby/conv4"), 1) },
-              { "5", new Animation(game.Content.Load<Texture2D>("Lobby/conv5"), 1) },
-              { "6", new Animation(game.Content.Load<Texture2D>("Lobby/conv6"), 1) },
-              { "7", new Animation(game.Content.Load<Texture2D>("Lobby/conv7"), 1) },
-            }, "0", Color.White * 0.75f);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            //update conversation timer
-            _displayTimer += gameTime.ElapsedGameTime.TotalSeconds;   
-
-            //Move to next gamestate
-            if (_player.Position.Y > 430)
-            {
-                _transitionTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                moveState = true;
-                if(_transitionTimer > 2)
-                    _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
-            }
-
-            // Place player back at spawn if they move outside map
-            if (_player.Position.X < 0 || _player.Position.Y < 0)
-            {
-                _player.Position = new Vector2(50, 250);
-            }
-
-            _animationSprite.Update(gameTime);
-
-            _player.Update(gameTime, _map, this);
-            _player.weapon.Update(gameTime, _player, _map.Enemies, _map);
-
-            _map.Update(gameTime, _player);
-            _player.Update(gameTime, _map, this);
         }
     }
 }
