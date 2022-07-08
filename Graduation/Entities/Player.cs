@@ -12,7 +12,6 @@ namespace Graduation.Entities
 {
     public class Player : Entity
     {
-        PositionHandler handler;
         private bool _canJump = false;
         InputController controller;
         AnimationSprite _animationSprite;
@@ -53,7 +52,6 @@ namespace Graduation.Entities
             Health = 100;
             _healthbar = new Healthbar(game,new Vector2(60,20));
             
-            handler = new PositionHandler();
             _effectTimer = 0;
             _effects = new List<PlayerEffect>();
             _defaultSpeed = Speed;
