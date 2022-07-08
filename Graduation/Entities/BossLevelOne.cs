@@ -209,12 +209,5 @@ namespace Graduation.Entities
                 }
             }
         }
-
-        public void idle(Map map)
-        {
-            _animationSprite.SetActive("StandLeft");
-            _direction = "left";
-            Util.changePlayerDimensions(_animationSprite, this);
-        }
     }
 }

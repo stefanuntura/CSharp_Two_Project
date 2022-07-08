@@ -84,6 +84,11 @@ namespace Graduation.States
 
             _map.Update(gameTime, _player);
             _player.Update(gameTime, _map, this);
+
+            if(_player.Health == 0)
+            {
+                _player.Health = 100;
+            }
         }
 
         public void LoadContent(Game game)
@@ -95,7 +100,7 @@ namespace Graduation.States
             _blackBlock = game.Content.Load<Texture2D>("Lobby/wall");
             _halfFloor = game.Content.Load<Texture2D>("Lobby/floor3");
             _weaponControls = game.Content.Load<Texture2D>("Lobby/weapon");
-            _generalControls = game.Content.Load<Texture2D>("Lobby/control");
+            _generalControls = game.Content.Load<Texture2D>("Lobby/controlUpdated");
             _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
             _couch = game.Content.Load<Texture2D>("Lobby/couch");
             _year = game.Content.Load<Texture2D>("Lobby/Y1");
