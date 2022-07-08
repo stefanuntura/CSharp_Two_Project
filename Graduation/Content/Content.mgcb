@@ -548,6 +548,18 @@
 /processorParam:TextureFormat=Color
 /build:Lobby/control.png
 
+#begin Lobby/controlUpdated.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Lobby/controlUpdated.png
+
 #begin Lobby/conv0.png
 /importer:TextureImporter
 /processor:TextureProcessor
