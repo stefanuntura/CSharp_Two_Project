@@ -135,7 +135,7 @@ namespace Graduation.Entities
                     Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
                 }
 
-                blockDmg(collidedBox);
+                Util.blockDmg(collidedBox, this);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Graduation.Entities
                     Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
                 }
 
-                blockDmg(collidedBox);
+                Util.blockDmg(collidedBox, this);
             }
         }
 
@@ -216,7 +216,7 @@ namespace Graduation.Entities
                     _canJump = true;
                 }
 
-                blockDmg(collidedBox);
+                Util.blockDmg(collidedBox, this);
             }
         }
 
@@ -332,12 +332,6 @@ namespace Graduation.Entities
             }
         }
 
-        public void blockDmg(Box box)
-        {
-            if (box is Spike)
-            {
-                Health -= 50;
-            }
-        }
+        
     }
 }

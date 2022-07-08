@@ -138,13 +138,21 @@ namespace Graduation.Entities
             }
         }
 
-        public void jump()
+        //Override moveRight method in entity
+        public override void moveRight(Map map)
         {
-            if (_canJump)
-            {
-                Gravity = -Speed * 0.15f;
-                _canJump = false;
-            }
+            _animationSprite.SetActive("DashRight");
+            _direction = "right";
+            Util.changePlayerDimensions(_animationSprite, this);
+            Util.checkAndMoveRight(map, this, dt);
+        }
+
+        public override void moveLeft(Map map)
+        {
+            _animationSprite.SetActive("DashLeft");
+            _direction = "left";
+            Util.changePlayerDimensions(_animationSprite, this);
+            Util.checkAndMoveLeft(map, this, dt);
         }
 
         public void throwWeapon()
@@ -153,70 +161,6 @@ namespace Graduation.Entities
             if (weapon.attackTimer >= weapon.Cooldown)
             {
                 attack = true;
-            }
-        }
-
-        public override void moveRight(Map map)
-        {
-            _animationSprite.SetActive("DashRight");
-            _direction = "right";
-            Util.changePlayerDimensions(_animationSprite, this);
-            if (Position.X < 3500)
-            {
-                bool collision = false;
-                Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X + (float)Speed * dt, Position.Y);
-
-                foreach (Box box in map.Boxes)
-                {
-                    if (collided(box, newPos))
-                    {
-                        collision = true;
-                        collidedBox = box;
-                        break;
-                    }
-                }
-
-                if (!collision)
-                {
-                    Position = newPos;
-                }
-                else
-                {
-                    Position = new Vector2(collidedBox.Position.X - Dimensions.X - 1, Position.Y);
-                }
-            }
-        }
-
-        public override void moveLeft(Map map)
-        {
-            _animationSprite.SetActive("DashLeft");
-            _direction = "left";
-            Util.changePlayerDimensions(_animationSprite, this);
-            if (Position.X > 0)
-            {
-                bool collision = false;
-                Box collidedBox = null;
-                Vector2 newPos = new Vector2(Position.X - (float)Speed * dt, Position.Y);
-
-                foreach (Box box in map.Boxes)
-                {
-                    if (collided(box, newPos))
-                    {
-                        collision = true;
-                        collidedBox = box;
-                        break;
-                    }
-                }
-
-                if (!collision)
-                {
-                    Position = newPos;
-                }
-                else
-                {
-                    Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, Position.Y);
-                }
             }
         }
 
@@ -254,7 +198,7 @@ namespace Graduation.Entities
                     _animationSprite.SetActive("ThrowAttackLeft");
                 }
 
-                this.throwWeapon();
+                throwWeapon();
             }
             if (!Util.InRangeX(this, player, 350) && player.Health > 0)
             {

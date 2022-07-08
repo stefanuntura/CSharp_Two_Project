@@ -109,10 +109,143 @@ namespace Graduation
             return false;
         }
 
+        public static void blockDmg(Box box, Entity entity)
+        {
+            if (box is Spike)
+            {
+                entity.Health -= 50;
+            }
+        }
+
         public static void changePlayerDimensions(AnimationSprite _animationSprite, Entity entity)
         {
             Animation currAnim = _animationSprite.CurrentAnimation;
             entity.Dimensions = new Vector2(currAnim.FrameWidth, currAnim.FrameHeight);
+        }
+
+        public static void checkAndMoveRight(Map map, Entity entity, float dt)
+        {
+            if (entity.Position.X< 3500)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(entity.Position.X + (float)entity.Speed * dt, entity.Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (entity.collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    entity.Position = newPos;
+                }
+                else
+                {
+                    entity.Position = new Vector2(collidedBox.Position.X - entity.Dimensions.X - 1, entity.Position.Y);
+                }
+            }
+        }
+
+
+        public static void checkAndMoveLeft(Map map, Entity entity, float dt)
+        {
+            if (entity.Position.X > 0)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(entity.Position.X - (float)entity.Speed * dt, entity.Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (entity.collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    entity.Position = newPos;
+                }
+                else
+                {
+                    entity.Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, entity.Position.Y);
+                }
+            }
+        }
+
+        public static void playerCheckAndMoveLeft(Map map, Entity entity, float dt)
+        {
+            if (entity.Position.X > 0)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(entity.Position.X - (float)entity.Speed * dt, entity.Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (entity.collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        if (box is Spike)
+                        {
+                            entity.Health -= 50;
+                        }
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    entity.Position = newPos;
+                }
+                else
+                {
+                    entity.Position = new Vector2(collidedBox.Position.X + collidedBox.Dimensions.X + 1, entity.Position.Y);
+                }
+            }
+        }
+
+        public static void playerCheckAndMoveRight(Map map, Entity entity, float dt)
+        {
+            if (entity.Position.X < 3500)
+            {
+                bool collision = false;
+                Box collidedBox = null;
+                Vector2 newPos = new Vector2(entity.Position.X + (float)entity.Speed * dt, entity.Position.Y);
+
+                foreach (Box box in map.Boxes)
+                {
+                    if (entity.collided(box, newPos))
+                    {
+                        collision = true;
+                        collidedBox = box;
+                        if (box is Spike)
+                        {
+                            entity.Health -= 50;
+                        }
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    entity.Position = newPos;
+                }
+                else
+                {
+                    entity.Position = new Vector2(collidedBox.Position.X - entity.Dimensions.X - 1, entity.Position.Y);
+                }
+            }
         }
     }
 }
