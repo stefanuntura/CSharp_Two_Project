@@ -26,11 +26,13 @@ namespace Graduation.States
         private Texture2D _goodLuck;
         private Texture2D _plant;
         private Texture2D _couch;
+        private Texture2D _year;
 
         private AnimationSprite _animationSprite;
 
         private bool moveState =  false;
         private double _displayTimer;
+        private double _transitionTimer;
 
         public Lobby(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
@@ -96,23 +98,31 @@ namespace Graduation.States
                 }
 
                 //Draw Dialogue bubble
-                if (_displayTimer > 4 && _player.Position.X > 120 && _player.Position.X < 200)
+                if (_displayTimer > 5 && _player.Position.X > 120 && _player.Position.X < 200)
                 {
                     int sprite = (int)Util.RandomDouble(0, 3);
                     _animationSprite.SetActive(sprite.ToString());
                     _displayTimer = 0;
                 }
-                else if(_displayTimer < 4 && _player.Position.X > 120 && _player.Position.X < 200)
+                else if (_displayTimer <= 5 && _player.Position.X > 120 && _player.Position.X < 200)
                 {
                     _animationSprite.Draw(_spriteBatch, new Vector2(80, 80));
                 }
 
 
                 // display control explanation
-                _spriteBatch.Draw(_player.Position.Y > 320 ? _goodLuck : _player.Position.X > 300 ? _weaponControls : _generalControls, new Vector2(430, 100), Color.Black * 0.5f);
+                _spriteBatch.Draw(_player.Position.Y > 320 || _player.Position.X > 600 ? _goodLuck : _player.Position.X > 300 ? _weaponControls : _generalControls, new Vector2(430, 100), Color.Black * 0.5f);
+            }
+            else
+            {
+                for (int i = 0; i < 30; i++)
+                    for (int j = 0; j < 20; j++)
+                            _spriteBatch.Draw(_blackBlock, new Vector2(i * 32, j * 32), Color.Black);
+
+                _spriteBatch.Draw(_year, new Vector2(280, 230), Color.White);
             }
 
-            _spriteBatch.End();
+                _spriteBatch.End();
         }
 
 
@@ -129,6 +139,7 @@ namespace Graduation.States
             _goodLuck = game.Content.Load<Texture2D>("Lobby/gl");
             _couch = game.Content.Load<Texture2D>("Lobby/couch");
             _plant = game.Content.Load<Texture2D>("Lobby/plant");
+            _year = game.Content.Load<Texture2D>("Lobby/Y1");
 
             _animationSprite = new AnimationSprite(new Dictionary<string, Animation>()
             {
@@ -146,7 +157,10 @@ namespace Graduation.States
             //Move to next gamestate
             if (_player.Position.Y > 430)
             {
-                _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
+                _transitionTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                moveState = true;
+                if(_transitionTimer > 2)
+                    _game.ChangeState(new GameState(_game, _graphicsDevice, _contentManager));
             }
 
             // Place player back at spawn if they move outside map
